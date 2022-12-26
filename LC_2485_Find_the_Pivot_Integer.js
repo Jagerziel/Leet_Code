@@ -1,5 +1,5 @@
 /*
-Date Started: 2022.12.25
+Date Started: 2022.12.26
 Language(s): JavaScript
 */
 
@@ -65,13 +65,11 @@ var pivotInteger = function(n) {
         }
         //Move one index for bottomSum and reduce index by one
         bottomSum += arr[bottomCt]
-        console.log(`Bottom Sum: ${bottomSum}`)
         bottomCt--
         arrCt++
         //Loop through top indexes to meet the new bottom Sum
         while (topSum < bottomSum) {
             topSum += arr[topCt]
-            console.log(`Top Sum: ${topSum}`)
             topCt++
             arrCt++
         }
