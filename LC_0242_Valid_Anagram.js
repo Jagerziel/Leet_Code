@@ -111,26 +111,82 @@ THIRD SOLUTION - MUCH FASTER (but still not the best - may come back to this)
 // console.log(s.filter((char) => char !== 'a'))
 
 // //TEST 1
+// s = "anagram", t = "nagaram"
+
+// // //TEST2
+// // s = "rat", t = "car"
+
+// var isAnagram = function(s, t) {
+//     //basic check
+//     if (s.length !== t.length) {
+//         return false
+//     }
+//     //split strings into arrays
+//     s = s.split("")
+//     t = t.split("")
+//     //conduct loop to filter out each letter
+//     while (s.length > 0) {
+//         //filter out current letter in s string
+//         t = t.filter((char) => char !== s[0])
+//         s = s.filter((char) => char !== s[0])
+//         //if the lengths of each array differ, return false
+//         if (s.length !== t.length) {
+//             return false
+//         }
+//     }
+//     //if both strings filter to 0, return true
+//     return true
+// };
+// console.log(isAnagram(s, t))
+
+/*
+Runtime 115 ms
+Beats 62.59%
+Memory 57.5 MB
+Beats 5.4%
+*/
+
+/*
+FOURTH SOLUTION - USING MY OWN FUNCTIONS
+*/
+
+// //TEST 1
 s = "anagram", t = "nagaram"
 
 // //TEST2
 // s = "rat", t = "car"
+
+
 
 var isAnagram = function(s, t) {
     //basic check
     if (s.length !== t.length) {
         return false
     }
-    //split strings into arrays
-    s = s.split("")
-    t = t.split("")
+    //new arrays
+    let sNew = []
+    let tNew = []
+    for (let i = 0; i < s.length; i++) {
+        sNew.push(s[i])
+        tNew.push(t[i])
+    }
+    //Function to filter array
+    const filterArr = (arr, letter) => {
+        //for each item in array, remove letter specified
+        for (let i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] === letter) {
+                arr.splice(i, 1)
+            }
+        }
+        return arr
+    }
     //conduct loop to filter out each letter
-    while (s.length > 0) {
-        //filter out current letter in s string
-        t = t.filter((char) => char !== s[0])
-        s = s.filter((char) => char !== s[0])
-        //if the lengths of each string differ, return false
-        if (s.length !== t.length) {
+    while (sNew.length > 0) {
+        //filter out current letter in sNew string
+        tNew = filterArr(tNew, sNew[0])
+        sNew = filterArr(sNew, sNew[0])
+        //if the lengths of each array differ, return false
+        if (sNew.length !== tNew.length) {
             return false
         }
     }
@@ -139,9 +195,3 @@ var isAnagram = function(s, t) {
 };
 console.log(isAnagram(s, t))
 
-/*
-Runtime 115 ms
-Beats 62.59%
-Memory 57.5 MB
-Beats 5.4%
-*/
