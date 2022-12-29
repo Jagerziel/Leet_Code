@@ -195,3 +195,9 @@ var isAnagram = function(s, t) {
 };
 console.log(isAnagram(s, t))
 
+/*
+Runtime 1672 ms
+Beats 5.1%
+Memory 49 MB
+Beats 15.10%
+*/
