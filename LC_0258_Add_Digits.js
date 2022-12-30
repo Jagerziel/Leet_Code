@@ -26,7 +26,6 @@ Follow up: Could you do it without any loop/recursion in O(1) runtime?
  */
 
 test1 = 11
-console.log(test1[2])
 
 var addDigits = function(num) {
     //Loop until num is less than 10
