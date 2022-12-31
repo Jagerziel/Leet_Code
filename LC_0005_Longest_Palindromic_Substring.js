@@ -44,64 +44,61 @@ const test10 = "aaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggg
 
 const test11 = "aaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjjkkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuuvvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzzyyyyyyyyyyxxxxxxxxxxwwwwwwwwwwvvvvvvvvvvuuuuuuuuuuttttttttttssssssssssrrrrrrrrrrqqqqqqqqqqppppppppppoooooooooonnnnnnnnnnmmmmmmmmmmllllllllllkkkkkkkkkkjjjjjjjjjjiiiiiiiiiihhhhhhhhhhggggggggggffffffffffeeeeeeeeeeddddddddddccccccccccbbbbbbbbbbaaaa"
 
-console.log(test10 === test11)
+// console.log(test10 === test11)
 
 
-var longestPalindrome = function(s) {
-    //Set longest palendrome variable
-    let longestPal = ""
-    //Loop through each time
-    for (let i = 0; i < s.length; i++) {
-        //Track current palendrome
-        let counter = []
-        //Move out one iteration to the left and right on each pass
-        let left = 1
-        let right = 1
-        //Start with center 
-        counter.push(s[i])
-        //Determine Center
-        while (s[i] === s[i - left] || s[i] === s[i + right]) {
-            if (s[i] === s[i - left]) {
-                counter.push(s[i])
-                left++
-            } else if (s[i] === s[i + right]) {
-                counter.push(s[i])
-                right++
-            } else {
-                break
-            }
-        }
-        //Continue check once first 1 or 2 chars are added
-        while (true) {
-            //Move one iteration to left/right and compare
-            //If they are the same...
-            if (s[i - left] === s[i + right] && s[i - left] !== undefined && s[i + right] !== undefined) {
-                //Add items to array
-                counter.unshift(s[i - left])
-                counter.push(s[i + right])
-                //move iteration one more space on either side
-                left++
-                right++
-                //check if one additional iteration will hit undefined, if so check if this is the longest palendrome and note accordingly
-                if ((s[i - left] === undefined || s[i + right] === undefined) && counter.length > longestPal.length) {
-                    longestPal = counter.join('')
-                    break
-                }
-            //Otherwise, check if new palendrome length is new longest length and break while loop
-            } else {
-                if (counter.length > longestPal.length) {
-                    longestPal = counter.join('')
-                }
-                break
-            }
-        }
-    }
-    //Return result
-    return longestPal
-};
+// var longestPalindrome = function(s) {
+//     //Set longest palendrome variable
+//     let longestPal = ""
+//     //Loop through each time
+//     for (let i = 0; i < s.length; i++) {
+//         //Track current palendrome
+//         let counter = []
+//         //Move out one iteration to the left and right on each pass
+//         let left = 1
+//         let right = 1
+//         //Start with center 
+//         counter.push(s[i])
+//         //Build Out Center
+//         while (s[i] === s[i - left]) {
+//             counter.push(s[i])
+//             left++
+//         }
+//         while (s[i] === s[i + right]) {
+//             counter.push(s[i])
+//             right++
+//         }
+//         //Continue check once first 1 or 2 chars are added
+//         while (true) {
+//             //Move one iteration to left/right and compare
+//             //If they are the same...
+//             if (s[i - left] === s[i + right] && s[i - left] !== undefined && s[i + right] !== undefined) {
+//                 //Add items to array
+//                 counter.unshift(s[i - left])
+//                 counter.push(s[i + right])
+//                 //move iteration one more space on either side
+//                 left++
+//                 right++
+//                 //check if one additional iteration will hit undefined, if so check if this is the longest palendrome and note accordingly
+//                 if ((s[i - left] === undefined || s[i + right] === undefined) && counter.length > longestPal.length) {
+//                     longestPal = counter.join('')
+//                     break
+//                 }
+//             //Otherwise, check if new palendrome length is new longest length and break while loop
+//             } else {
+//                 if (counter.length > longestPal.length) {
+//                     longestPal = counter.join('')
+//                 }
+//                 break
+//             }
+//         }
+//     }
+//     //Return result
+//     return longestPal
+// };
 
-console.log(`FINAL OUTPUT: ${longestPalindrome(test4)}`)
-console.log(test10.length)
+// console.log(`FINAL OUTPUT: ${longestPalindrome(test11)}`)
+// console.log(test10.length)
 
 //FIRST RESULT 
 /*
@@ -125,4 +122,90 @@ Runtime 648 ms
 Beats 27.95%
 Memory 49.3 MB
 Beats 22.67%
+*/
+
+//REFACTORED BUG
+/*
+Runtime 248 ms
+Beats 44.27%
+Memory 49.4 MB
+Beats 21.82%
+*/
+
+/*
+ATTEMPT AT FASTER SPEED
+*/
+
+var longestPalindrome = function(s) {
+    //Set longest palendrome variable
+    let longestPal = ""
+    //Loop through each time
+    for (let i = 0; i < s.length; i++) {
+        //Skip all similar executions
+        if(s[i] === s[i - 1]) {
+            continue
+        }
+        //Track current palendrome
+        let counter = []
+        //Move out one iteration to the left and right on each pass
+        let left = 1
+        let right = 1
+        //Start with center 
+        counter.push(s[i])
+        //Build Out Center
+        while (s[i] === s[i - left]) {
+            counter.push(s[i])
+            left++
+        }
+        while (s[i] === s[i + right]) {
+            counter.push(s[i])
+            right++
+        }
+        //Continue check once first 1 or 2 chars are added
+        while (true) {
+            //Move one iteration to left/right and compare
+            //If they are the same...
+            if (s[i - left] === s[i + right] && s[i - left] !== undefined && s[i + right] !== undefined) {
+                //Add items to array
+                counter.unshift(s[i - left])
+                counter.push(s[i + right])
+                //move iteration one more space on either side
+                left++
+                right++
+            //Otherwise, check if new palendrome length is new longest length and break while loop
+            } else {
+                if (counter.length > longestPal.length) {
+                    longestPal = counter
+                }
+                break
+            }
+        }
+    }
+    //Return result
+    return longestPal.join('')
+};
+
+console.log(`FINAL OUTPUT: ${longestPalindrome(test2)}`)
+
+/*
+Runtime 144 ms
+Beats 63.96%
+Memory 49.3 MB
+Beats 22.67%
+*/
+
+//REFACTORED JOIN TO ONLY OCCUR AT RETURN
+/*
+Runtime 128 ms
+Beats 74.76%
+Memory 49.2 MB
+Beats 22.67%
+*/
+
+//REFACTORED CONDITIONAL STATEMENT IN WHILE LOOP
+/*
+Runtime 121 ms
+Beats 79.15%
+Memory 49.5 MB
+Beats 21.7%
 */
