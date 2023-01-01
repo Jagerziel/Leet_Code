@@ -78,10 +78,8 @@ var intToRoman = function(num) {
         if (num >= numerals[i].num) {
             //Get number of repetitions needed
             tempNum = Math.floor(num / numerals[i].num)
-            console.log(`tempnum: ${tempNum}, tier: ${numerals[i].num}`)
             // Handle 'fours' and 'nines'
             if(tempNum === 4 || num >= numerals[i].threshold) {
-                console.log(num)
                 romanNumeral += numerals[i - 1].subt + numerals[i - 1].let
                 num -= numerals[i].threshold
             //Otherwise add the letter and repeat amount of times in tempNum (i.e. 3 would repeat 'I' 3 times)
@@ -98,8 +96,8 @@ var intToRoman = function(num) {
 console.log(intToRoman(test5))
 
 /*
-Runtime 258 ms
-Beats 14.46%
-Memory 52.6 MB
-Beats 5.50%
+Runtime 118 ms
+Beats 94.42%
+Memory 48.5 MB
+Beats 39.92%
 */
