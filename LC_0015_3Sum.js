@@ -148,8 +148,59 @@ GOAL: Fewer Loop Iterations and removal of JSON
 /*
 THIRD ATTEMPT FOR MORE EFFICIENCY
 GOAL: Better Duplicate Result Handling
-    First Pass: 309 / 311 testcases passed - Memory Issue (test Case 14)
-    Second Pass: 308 / 311 testcases passed - Time Exceeded Issue 
+*/
+
+// var threeSum = function(nums) {
+//     //Sort Array
+//     nums = nums.sort(function (a, b) {return a - b})
+//     //Declare variable for result
+//     let result = []
+//     //Set length variable
+//     let len = nums.length - 1
+//     //Loop through i from front
+//     for (let i = 0; i < len; i++) {
+//         //Loop through j from back ending at i
+//         for (let j = len; j > i; j--) {
+//             //Skip number duplicates
+//             if (nums[j] === nums[j + 1] && nums[j] === nums[j - 1]) {
+//                 j--
+//             } else {
+//                 //Loop through k piggybacking off of j and ending at i
+//                 for (let k = j - 1; k > i; k--) {
+//                     //Push result if all 3 sum to 0
+//                     if (nums[i] + nums[j] + nums[k] === 0) {
+//                         result.push([nums[i], nums[j], nums[k]])
+//                         break
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     //Remove duplicate results
+//     for (let x = result.length - 1; x > 0; x--) {
+//         for (let y = x - 1; y >= 0; y--) {
+//             if (result[x][0] === result[y][0] && result[x][1] === result[y][1] && result[x][2] === result[y][2]) {
+//                 result.splice(y, 1)
+//                 x--
+//             }
+//         }
+//     }
+//     //Return result
+//     return result
+// };
+
+// console.log(threeSum(test15))
+
+/*
+Runtime 6278 ms
+Beats 5.1%
+Memory 52.8 MB
+Beats 50.32%
+*/
+
+/*
+FOURTH ATTEMPT FOR MORE EFFICIENCY
+GOAL: Better Loop Efficiency and Duplicate Result Handling
 */
 
 var threeSum = function(nums) {
@@ -171,19 +222,29 @@ var threeSum = function(nums) {
                 for (let k = j - 1; k > i; k--) {
                     //Push result if all 3 sum to 0
                     if (nums[i] + nums[j] + nums[k] === 0) {
-                        result.push([nums[i], nums[j], nums[k]])
+                        if (result.length === 0) {
+                            result.push([nums[i], nums[j], nums[k]])
+                            break
+                        } else {
+                            for (let z = result.length - 1; z >= 0; z--) {
+                                if (result[z][0] === nums[i]) {
+                                    if (result[z][1] === nums[j] && result[z][2] === nums[k]) {
+                                        break
+                                    } else if (z === 0) {
+                                        result.push([nums[i], nums[j], nums[k]])
+                                        break
+                                    }
+                                } else if (z === 0) {
+                                    result.push([nums[i], nums[j], nums[k]])
+                                    break
+                                }
+                            }
+                            break
+                        }
+                    } else if (nums[i] + nums[j] + nums[k] < 0) {
                         break
                     }
                 }
-            }
-        }
-    }
-    //Remove duplicate results
-    for (let x = result.length - 1; x > 0; x--) {
-        for (let y = x - 1; y >= 0; y--) {
-            if (result[x][0] === result[y][0] && result[x][1] === result[y][1] && result[x][2] === result[y][2]) {
-                result.splice(y, 1)
-                x--
             }
         }
     }
@@ -193,11 +254,34 @@ var threeSum = function(nums) {
 
 console.log(threeSum(test15))
 
+//IMPROVEMENT ROUND 1: Added Additional Break to k
 /*
-Runtime 6278 ms
-Beats 5.1%
-Memory 52.8 MB
-Beats 50.32%
+Runtime 3260 ms
+Beats 10.49%
+Memory 53.4 MB
+Beats 28.3%
 */
 
+//IMPROVEMENT ROUND 2: Tried to remove duplicates at point - runtime suffered but memory is good
+/*
+Runtime 6103 ms
+Beats 5.1%
+Memory 51.2 MB
+Beats 99.16%
+*/
 
+//IMPROVEMENT ROUND 3: Tried to do duplicate check in j loop
+/*
+Runtime 5663 ms
+Beats 5.43%
+Memory 50 MB
+Beats 99.53%
+*/
+
+//IMPROVEMENT ROUND 4: Tried to split IF statement for duplicate efficiency - runtime still not as desired but somehow memory improved
+/*
+Runtime 7426 ms
+Beats 5.1%
+Memory 48.9 MB
+Beats 99.91%
+*/
