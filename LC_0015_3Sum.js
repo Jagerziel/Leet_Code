@@ -100,6 +100,54 @@ WORKS BUT TIMES OUT ON LEETCODE
 
 /*
 SECOND ATTEMPT FOR MORE EFFICIENCY
+GOAL: Fewer Loop Iterations and removal of JSON
+    First Pass: 309 / 311 testcases passed - Memory Issue (test Case 14)
+    Second Pass: 308 / 311 testcases passed - Time Exceeded Issue 
+*/
+
+// var threeSum = function(nums) {
+//     //Sort Array
+//     nums = nums.sort(function (a, b) {return a - b})
+//     //Declare variable for result
+//     let result = []
+//     //Set length variable
+//     let len = nums.length - 1
+//     //Loop through i from front
+//     for (let i = 0; i < len; i++) {
+//         //Loop through j from back ending at i
+//         for (let j = len; j > i; j--) {
+//             //Skip number duplicates
+//             if (nums[j] === nums[j + 1] && nums[j] === nums[j - 1]) {
+//                 j--
+//             } else {
+//                 //Loop through k piggybacking off of j and ending at i
+//                 for (let k = j - 1; k > i; k--) {
+//                     //Push result if all 3 sum to 0
+//                     if (nums[i] + nums[j] + nums[k] === 0) {
+//                         result.push([nums[i], nums[j], nums[k]])
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     //Remove duplicate results
+//     for (let x = result.length - 1; x > 0; x--) {
+//         for (let y = x - 1; y >= 0; y--) {
+//             if (result[x][0] === result[y][0] && result[x][1] === result[y][1] && result[x][2] === result[y][2]) {
+//                 result.splice(y, 1)
+//                 x--
+//             }
+//         }
+//     }
+//     //Return result
+//     return result
+// };
+
+// console.log(threeSum(test3))
+
+/*
+THIRD ATTEMPT FOR MORE EFFICIENCY
+GOAL: Better Duplicate Result Handling
     First Pass: 309 / 311 testcases passed - Memory Issue (test Case 14)
     Second Pass: 308 / 311 testcases passed - Time Exceeded Issue 
 */
@@ -124,6 +172,7 @@ var threeSum = function(nums) {
                     //Push result if all 3 sum to 0
                     if (nums[i] + nums[j] + nums[k] === 0) {
                         result.push([nums[i], nums[j], nums[k]])
+                        break
                     }
                 }
             }
@@ -142,4 +191,13 @@ var threeSum = function(nums) {
     return result
 };
 
-console.log(threeSum(test3))
+console.log(threeSum(test15))
+
+/*
+Runtime 6278 ms
+Beats 5.1%
+Memory 52.8 MB
+Beats 50.32%
+*/
+
+
