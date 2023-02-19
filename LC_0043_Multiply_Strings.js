@@ -178,3 +178,45 @@ Beats 26.27%
 */
 
 
+//REFACTORING ATTEMPT 2: REMOVE OUTPUT LOOP
+
+var multiply = function(num1, num2) {
+    // Check for multiply by 0
+    if (num1 === '0' || num2 === '0') {
+        return '0'
+    }
+    // Set Object for each digit
+    let digitCount = num1.length + num2.length
+    let digitObj = {}
+    for (let i = 0; i < digitCount; i++) {
+        digitObj[i] = 0
+    }
+    // Assign number to object at each digit
+    for (let i = num1.length - 1; i >= 0; i--) {
+        // Control the digit's field for proper object assignment
+        let objPosition = 0 + ((num1.length - 1) - i)
+        // Assign digit value for current and next (if value is greater than 9)
+        for (let j = num2.length - 1; j >= 0; j--) {
+            digitObj[objPosition] += (num1[i] * num2[j]) % 10
+            let over10 = 0
+            if (digitObj[objPosition] >= 10) {
+                over10 = Math.floor(digitObj[objPosition] / 10)
+                digitObj[objPosition] = digitObj[objPosition] % 10
+            }
+            digitObj[objPosition + 1] += Math.floor((num1[i] * num2[j]) / 10) + over10
+            objPosition++
+        }
+    }
+    // Set string and iterate through object to pull the values for each key appending into variable 'result'
+    let leadingZero = digitObj[digitCount - 1] === 0 ? 1 : 0
+    return Object.values(digitObj).reverse().join('').slice(leadingZero)
+};
+
+console.log(multiply(num3, num4))
+
+/*
+Runtime 90 ms
+Beats 34.71%
+Memory 45.4 MB
+Beats 25.89%
+*/
