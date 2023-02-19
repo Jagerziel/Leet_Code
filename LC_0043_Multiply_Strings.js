@@ -262,8 +262,12 @@ var multiply = function(num1, num2) {
 console.log(multiply(num3, num4))
 
 /*
-Runtime 74 ms
-Beats 68.7%
-Memory 44.8 MB
-Beats 31.26%
+Runtime 70 ms
+Beats 79.96%
+Memory 45.2 MB
+Beats 26.94%
+*/
+
+/*
+NOTE: THE RUNTIME IS VERY MUCH DEPENDENT ON LEETCODE FOR THIS PROBLEM.  I RAN SEVERAL TIMES AND TOOK THE BEST ONE BUT IT RANGES FROM 70MS TO 80MS.  70MS WAS THE BEST RECORDED.
 */
