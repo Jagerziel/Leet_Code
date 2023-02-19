@@ -242,7 +242,9 @@ var multiply = function(num1, num2) {
         for (let j = num2.length - 1; j >= 0; j--) {
             digitObj[objPosition] += (num1[i] * num2[j]) % 10
             over10 = (digitObj[objPosition] / 10) << 0
-            digitObj[objPosition] = digitObj[objPosition] % 10
+            if (over10 > 0) {
+                digitObj[objPosition] = digitObj[objPosition] % 10
+            }
             digitObj[objPosition + 1] += (((num1[i] * num2[j]) / 10) << 0 )+ over10
             objPosition++
         }
@@ -260,8 +262,8 @@ var multiply = function(num1, num2) {
 console.log(multiply(num3, num4))
 
 /*
-Runtime 83 ms
-Beats 44.97%
-Memory 45.4 MB
-Beats 25.89%
+Runtime 74 ms
+Beats 68.7%
+Memory 44.8 MB
+Beats 31.26%
 */
