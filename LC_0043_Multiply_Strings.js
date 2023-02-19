@@ -81,6 +81,56 @@ let num11 = "0"
 // console.log(multiply(num3, num4))
 
 
+// var multiply = function(num1, num2) {
+//     // Check for multiply by 0
+//     if (num1 === '0' || num2 === '0') {
+//         return '0'
+//     }
+//     // Set Object for each digit
+//     let digitCount = num1.length + num2.length
+//     let digitObj = {}
+//     for (let i = 0; i < digitCount; i++) {
+//         digitObj[i] = 0
+//     }
+//     // Assign number to object at each digit
+//     for (let i = num1.length - 1; i >= 0; i--) {
+//         // Control the digit's field for proper object assignment
+//         let objPosition = 0 + ((num1.length - 1) - i)
+//         // Assign digit value for current and next (if value is greater than 9)
+//         for (let j = num2.length - 1; j >= 0; j--) {
+//             digitObj[objPosition] += (num1[i] * num2[j]) % 10
+//             digitObj[objPosition + 1] += Math.floor((num1[i] * num2[j]) / 10)
+//             objPosition++
+//         }
+//     }
+//     // As both numbers are now added, the object will again have values greater than 9.  This is a second iteration to move numbers into the appropriate digit should the value of that object key exceed 9.
+//     for (let i = 0; i < digitCount; i++) {
+//         if (digitObj[i] >= 10) {
+//             digitObj[i + 1] += Math.floor(digitObj[i] / 10)
+//             digitObj[i] = digitObj[i] % 10
+//         }
+//     }
+//     // Set string and iterate through object to pull the values for each key appending into variable 'result'
+//     let result = ""
+//     let leadingZero = digitObj[digitCount - 1] === 0 ? 1 : 0
+//     for (let i = 0; i < digitCount - leadingZero; i++) {
+//         result = `${digitObj[i]}` + result
+//     }
+//     // Return result
+//     return result
+// };
+
+// console.log(multiply(num10, num11))
+
+/*
+Runtime 80 ms
+Beats 51.20%
+Memory 45.5 MB
+Beats 25.69%
+*/
+
+//REFACTORING ATTEMPT 1: REMOVE SECOND ADDITION LOOP
+
 var multiply = function(num1, num2) {
     // Check for multiply by 0
     if (num1 === '0' || num2 === '0') {
@@ -99,15 +149,13 @@ var multiply = function(num1, num2) {
         // Assign digit value for current and next (if value is greater than 9)
         for (let j = num2.length - 1; j >= 0; j--) {
             digitObj[objPosition] += (num1[i] * num2[j]) % 10
-            digitObj[objPosition + 1] += Math.floor((num1[i] * num2[j]) / 10)
+            let over10 = 0
+            if (digitObj[objPosition] >= 10) {
+                over10 = Math.floor(digitObj[objPosition] / 10)
+                digitObj[objPosition] = digitObj[objPosition] % 10
+            }
+            digitObj[objPosition + 1] += Math.floor((num1[i] * num2[j]) / 10) + over10
             objPosition++
-        }
-    }
-    // As both numbers are now added, the object will again have values greater than 9.  This is a second iteration to move numbers into the appropriate digit should the value of that object key exceed 9.
-    for (let i = 0; i < digitCount; i++) {
-        if (digitObj[i] >= 10) {
-            digitObj[i + 1] += Math.floor(digitObj[i] / 10)
-            digitObj[i] = digitObj[i] % 10
         }
     }
     // Set string and iterate through object to pull the values for each key appending into variable 'result'
@@ -120,11 +168,13 @@ var multiply = function(num1, num2) {
     return result
 };
 
-console.log(multiply(num10, num11))
+console.log(multiply(num3, num4))
 
 /*
-Runtime 80 ms
-Beats 51.20%
-Memory 45.5 MB
-Beats 25.69%
+Runtime 81 ms
+Beats 49.19%
+Memory 45.2 MB
+Beats 26.27%
 */
+
+
