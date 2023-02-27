@@ -110,7 +110,52 @@ words8 = []
 
 # print(SolutionToProblem.countWords(words3, words6))
 
-# Solution 3 - Times out on LeetCode (58/60)
+# Solution 3 - Passed - Not Optimized
+
+# class Solution(object):
+#     def countWords(self, words1, words2):
+#         """
+#         :type words1: List[str]
+#         :type words2: List[str]
+#         :rtype: int
+#         """
+#         # Create Dictionary to hold unique keys
+#         duplicated = {}
+#         # Identify Unique Keys
+#         for i in words1:
+#             try: 
+#                 if duplicated[i] == "Keep":
+#                     duplicated[i] = "Ignore"
+#             except:
+#                 duplicated[i] = "Keep"
+#         # Match words2 items to Keys in duplicated dictionary
+#         for j in words2:
+#             try:
+#                 if duplicated[j] == "Keep":
+#                     duplicated[j] = "Keep Two"
+#                 elif duplicated[j] == "Keep Two":
+#                     duplicated[j] = "Ignore"     
+#             except:
+#                 pass
+#         # Count results with "Keep Two"
+#         result = 0
+#         for k in duplicated:
+#             if duplicated[k] == "Keep Two":
+#                 result += 1
+#         # Return Result
+#         return result
+
+
+# SolutionToProblem = Solution()
+
+# print(SolutionToProblem.countWords(words3, words4))
+
+# Runtime 61 ms
+# Beats 68.67%
+# Memory 13.8 MB
+# Beats 82.67%
+
+# Solution 3 - Passed - Not Optimized
 
 class Solution(object):
     def countWords(self, words1, words2):
@@ -129,19 +174,17 @@ class Solution(object):
             except:
                 duplicated[i] = "Keep"
         # Match words2 items to Keys in duplicated dictionary
+        result = 0
         for j in words2:
             try:
                 if duplicated[j] == "Keep":
                     duplicated[j] = "Keep Two"
+                    result += 1
                 elif duplicated[j] == "Keep Two":
-                    duplicated[j] = "Ignore"     
+                    duplicated[j] = "Ignore"   
+                    result -= 1  
             except:
                 pass
-        # Count results with "Keep Two"
-        result = 0
-        for k in duplicated:
-            if duplicated[k] == "Keep Two":
-                result += 1
         # Return Result
         return result
 
@@ -150,7 +193,7 @@ SolutionToProblem = Solution()
 
 print(SolutionToProblem.countWords(words3, words4))
 
-# Runtime 61 ms
-# Beats 68.67%
-# Memory 13.8 MB
-# Beats 82.67%
+# Runtime 52 ms
+# Beats 84.67%
+# Memory 14.1 MB
+# Beats 10%
