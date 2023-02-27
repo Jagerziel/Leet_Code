@@ -113,10 +113,8 @@ var countWords = function(words1, words2) {
             duplicated[words2[j]] = "Ignore"
         }
     }
-    // Filter for "unique item results"
-    result = Object.keys(duplicated).filter((val) => duplicated[val] === "Found Two").length
     // Return result
-    return result
+    return Object.keys(duplicated).filter((val) => duplicated[val] === "Found Two").length
 };
 
 console.log(countWords(words4, words5))
