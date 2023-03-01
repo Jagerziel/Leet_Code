@@ -41,6 +41,56 @@ chars2 = "atach"
 
 // ATTEMPT 1: INEFFECIENT SOLUTION
 
+// var countCharacters = function(words, chars) {
+//     // Set object with count of each letter
+//     target = {}
+//     for (let i = 0; i < chars.length; i++) {
+//         if (target[chars[i]] === undefined) {
+//             target[chars[i]] = 1
+//         } else {
+//             target[chars[i]] += 1
+//         }
+//     }
+//     // Track result of char length for total valid words
+//     result = 0
+//     // Loop through words array
+//     for (let i = 0; i < words.length; i++) {
+//         // Make copy of target object
+//         testWord = {...target}
+//         // Loop through each letter 
+//         for (let j = 0; j < words[i].length; j++) {
+//             // See if letter is in testWord object - if not go to next word
+//             if (testWord[words[i][j]] === undefined) {
+//                 break
+//             } else {
+//                 // If letter is in, subtract 1 from letter count
+//                 testWord[words[i][j]] -= 1
+//                 // If letter count is below 0, skip word
+//                 if (testWord[words[i][j]] < 0) {
+//                     break
+//                 }
+//                 // If letter count is valid and word is complete, add to result
+//                 if (j === words[i].length - 1) {
+//                     result += words[i].length
+//                 }
+//             }
+//         }
+//     }
+//     // Return result
+//     return result
+// };
+
+// console.log(countCharacters(words2, chars2))
+
+/*
+Runtime 235 ms
+Beats 44.40%
+Memory 50.4 MB
+Beats 58.80%
+*/
+
+// ATTEMPT 2: CONSOLIDATE .LENGTH CONVERSION
+
 var countCharacters = function(words, chars) {
     // Set object with count of each letter
     target = {}
@@ -52,7 +102,7 @@ var countCharacters = function(words, chars) {
         }
     }
     // Track result of char length for total valid words
-    result = 0
+    result = ""
     // Loop through words array
     for (let i = 0; i < words.length; i++) {
         // Make copy of target object
@@ -63,28 +113,22 @@ var countCharacters = function(words, chars) {
             if (testWord[words[i][j]] === undefined) {
                 break
             } else {
-                // If letter is in, subtract 1 from letter count
-                testWord[words[i][j]] -= 1
                 // If letter count is below 0, skip word
-                if (testWord[words[i][j]] < 0) {
+                if (testWord[words[i][j]] - 1 < 0) {
                     break
                 }
+                // If letter is in, subtract 1 from letter count
+                testWord[words[i][j]] -= 1
                 // If letter count is valid and word is complete, add to result
                 if (j === words[i].length - 1) {
-                    result += words[i].length
+                    result += words[i]
                 }
             }
         }
     }
     // Return result
-    return result
+    return result.length
 };
 
 console.log(countCharacters(words2, chars2))
 
-/*
-Runtime 235 ms
-Beats 44.40%
-Memory 50.4 MB
-Beats 58.80%
-*/
