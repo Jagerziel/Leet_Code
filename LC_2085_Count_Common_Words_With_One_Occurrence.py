@@ -155,7 +155,7 @@ words8 = []
 # Memory 13.8 MB
 # Beats 82.67%
 
-# Solution 3 - Passed - Not Optimized
+# Solution 4 - Passed - Optimized
 
 class Solution(object):
     def countWords(self, words1, words2):
