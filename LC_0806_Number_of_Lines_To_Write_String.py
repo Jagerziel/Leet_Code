@@ -37,6 +37,45 @@ s1 = "abcdefghijklmnopqrstuvwxyz"
 widths2 = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]
 s2 = "bbbcccdddaaa"
 
+# Solution 1 Attempt: Not Optimal
+
+# class Solution(object):
+#     def numberOfLines(self, widths, s):
+#         """
+#         :type widths: List[int]
+#         :type s: str
+#         :rtype: List[int]
+#         """
+#         # Check for s length of 0
+#         if len(s) == 0:
+#             return [0,0]
+#         # Define object to direct where to pull value from in widths array
+#         pixels = {
+#             "a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, "i": 8, "j": 9, "k": 10, "l": 11, "m": 12, "n": 13, "o": 14, "p": 15, "q": 16, "r": 17, "s": 18, "t": 19, "u": 20, "v": 21, "w": 22, "x": 23, "y": 24, "z": 25
+#             }
+#         #Count rows and remainder
+#         rows = 1
+#         remainder = 0
+#         for i in s:
+#             if widths[pixels[i]] + remainder <= 100:
+#                 remainder += widths[pixels[i]]
+#             else:
+#                 rows += 1
+#                 remainder = widths[pixels[i]]
+#         #Return Result        
+#         return [rows,remainder]
+    
+
+# SolutionToProblem = Solution()
+
+
+# print(SolutionToProblem.numberOfLines(widths1,s1))
+
+# Runtime 24 ms
+# Beats 29.76%
+# Memory 13.6 MB
+# Beats 36.90%
+
 class Solution(object):
     def numberOfLines(self, widths, s):
         """
@@ -54,23 +93,20 @@ class Solution(object):
         #Count rows and remainder
         rows = 1
         remainder = 0
+        #Iterate through letters in s resetting the remainder and adding a row 
         for i in s:
-            if widths[pixels[i]] + remainder <= 100:
-                remainder += widths[pixels[i]]
-            else:
+            remainder += widths[pixels[i]]
+            if remainder > 100:
                 rows += 1
                 remainder = widths[pixels[i]]
         #Return Result        
-        return [rows,remainder]
-    
+        return [rows,remainder] 
 
 SolutionToProblem = Solution()
 
-
 print(SolutionToProblem.numberOfLines(widths1,s1))
 
-# Runtime 24 ms
-# Beats 29.76%
-# Memory 13.6 MB
-# Beats 36.90%
-
+# Runtime 15 ms
+# Beats 90.48%
+# Memory 13.4 MB
+# Beats 61.90%
