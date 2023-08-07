@@ -72,12 +72,36 @@ var finalString = function(s) {
     return output
 };
 
-console.log(finalString(test1))
-console.log(finalString(test2))
-
 /*
 Runtime 96 ms
 Beats 77.94%
 Memory 50.4 MB
 Beats 41.67%
 */
+
+var finalString = function(s) {
+    let output = ""
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === "i") {
+            let reversed = ""
+            for (let i = output.length - 1; i >= 0; i--) {
+                reversed += output[i]
+            }
+            output = reversed
+        } else {
+            output += s[i]
+        }
+    }
+    return output
+};
+
+/*
+Runtime 89 ms
+Beats 92.16%
+Memory 50.9 MB
+Beats 13.72%
+*/
+
+
+console.log(finalString(test1))
+console.log(finalString(test2))
