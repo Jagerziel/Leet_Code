@@ -457,9 +457,9 @@ const wordBreak = function(s, wordDict) {
 }
 
 /*
-Runtime 73 ms
-Beats 19.38%
-Memory 47.9 MB
+Runtime 59 ms
+Beats 67.1%
+Memory 48.3 MB
 Beats 5.8%
 */
 
