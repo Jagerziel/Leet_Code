@@ -26,24 +26,24 @@
 test1 = [1,3,6,10,12,15]
 test2 = [1,2,4,7,10]
 
-# class Solution:
-#     def averageValue(self, nums: List[int]) -> int:
-#         # Set Variables
-#         count = 0
-#         sum = 0
-#         # Loop Through List
-#         for i in nums:
-#             if i % 3 == 0:
-#                 if i % 2 == 0:
-#                     count += 1
-#                     sum += i
-#         # Check for Null List Length
-#         if count == 0:
-#             return 0
-#         # Return Result
-#         return sum // count
+class Solution:
+    def averageValue(self, nums: List[int]) -> int:
+        # Set Variables
+        count = 0
+        sum = 0
+        # Loop Through List
+        for i in nums:
+            if i % 3 == 0:
+                if i % 2 == 0:
+                    count += 1
+                    sum += i
+        # Check for Null List Length
+        if count == 0:
+            return 0
+        # Return Result
+        return sum // count
 
-# print(Solution.averageValue(test1))
+print(Solution.averageValue(test1))
 
 # Runtime73 ms
 # Beats 97.81%
