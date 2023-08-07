@@ -314,6 +314,82 @@ Beats 5.8%
 
 // ATTEMPT 4: ATTEMPT TO REMOVE UNNECESSARY CHECKS 
 
+// const wordBreak = function(s, wordDict) {
+//     let remainingString = s // Set remaining string variable
+//     let wordDictLen = wordDict.length // Calculate length of dictionary array once
+//     let sortedWordDict = wordDict.sort().reverse() // Reverse order so longest words come first in alphabetical order
+//     let trackingArray = [] // Tracks words that have already been used and are valid
+//     let minWordLen = 0 // Used to 
+//     let finalResult = false // Used to return final result
+
+//     for (let i = 0; i < wordDictLen; i++) {
+//         if (i === 0) minWordLen = sortedWordDict[i].length
+//         if (sortedWordDict[i].length < minWordLen) minWordLen = sortedWordDict[i].length
+//     }
+
+//     let maxLoops = Math.ceil(s.length / minWordLen)
+    
+//     function checkNextWord (n) {
+//         // Break recursion conditions
+//         if ( n === 0) return 
+//         console.log(n)
+
+//         // Run main loop for n rounds
+//         MainLoop: for (let rounds = 0; rounds < n; rounds++) {
+//             // Loop through each word in the dictionary to check if equal to first x characters of that string's length
+//             for (let i = 0; i < wordDictLen; i++) {
+//                 // If the remaining string's length is equal to the word's length, finalResult is true
+//                 if ( sortedWordDict[i] === remainingString.slice(0, sortedWordDict[i].length)) {
+//                     if ( sortedWordDict[i].length === remainingString.length) {
+//                         finalResult = true
+//                         n = 0
+//                         return
+//                     } else if ( trackingArray.length > 0 && trackingArray[rounds] === remainingString.slice(0, sortedWordDict[i].length)) {
+//                         continue // skip word
+//                     } else {
+//                         // Check if next word is valid.  If so, keep current word and deduct it from the remainingString
+//                         let tempRemainingString = remainingString.slice(sortedWordDict[i].length)
+//                         for (let k = 0; k < wordDictLen; k++) {
+//                             if (sortedWordDict[k] === tempRemainingString.slice(0, sortedWordDict[k].length)) {
+//                                 remainingString = remainingString.slice(sortedWordDict[i].length)
+//                                 // Add word to tracking array unless a word in that spot exists - then replace it
+//                                 if (trackingArray.length <= maxLoops - n) {
+//                                     trackingArray.push(sortedWordDict[i]) // add new word to trackingArray
+//                                 } else {
+//                                     trackingArray.splice(maxLoops - n,1,sortedWordDict[i]) // replace word in trackingArray
+//                                 }
+//                                 break
+//                             }
+//                         }
+//                     }
+//                 } 
+//             }   
+
+//             if (rounds === n - 1) {
+//                 remainingString = s // Reset string value
+//                 checkNextWord(n - 1) // Trigger recursive function 
+//             }  
+//         }
+//     }
+
+//     // Run function
+//     checkNextWord(maxLoops)
+
+//     // Return result
+//     return finalResult
+// }
+
+/*
+Runtime 66 ms
+Beats 39.53%
+Memory 48.6 MB
+Beats 5.8%
+*/
+
+
+
+// ATTEMPT 5: ATTEMPT TO REMOVE REDUNDENT CALCULATIONS AND REORDER CODE
+
 const wordBreak = function(s, wordDict) {
     let remainingString = s // Set remaining string variable
     let wordDictLen = wordDict.length // Calculate length of dictionary array once
@@ -337,25 +413,27 @@ const wordBreak = function(s, wordDict) {
         MainLoop: for (let rounds = 0; rounds < n; rounds++) {
             // Loop through each word in the dictionary to check if equal to first x characters of that string's length
             for (let i = 0; i < wordDictLen; i++) {
+                let currentWord = sortedWordDict[i] 
+                let currentWordLength = currentWord.length
                 // If the remaining string's length is equal to the word's length, finalResult is true
-                if ( sortedWordDict[i] === remainingString.slice(0, sortedWordDict[i].length)) {
-                    if ( sortedWordDict[i].length === remainingString.length) {
+                if ( currentWord === remainingString.slice(0, currentWordLength)) {
+                    if (trackingArray.length > 0 && trackingArray[rounds] === remainingString.slice(0, currentWordLength)) {
+                        continue // skip word
+                    } else if ( currentWordLength === remainingString.length) {
                         finalResult = true
                         n = 0
                         return
-                    } else if ( trackingArray.length > 0 && trackingArray[rounds] === remainingString.slice(0, sortedWordDict[i].length)) {
-                        continue // skip word
                     } else {
                         // Check if next word is valid.  If so, keep current word and deduct it from the remainingString
-                        let tempRemainingString = remainingString.slice(sortedWordDict[i].length)
+                        let tempRemainingString = remainingString.slice(currentWordLength)
                         for (let k = 0; k < wordDictLen; k++) {
                             if (sortedWordDict[k] === tempRemainingString.slice(0, sortedWordDict[k].length)) {
-                                remainingString = remainingString.slice(sortedWordDict[i].length)
+                                remainingString = remainingString.slice(currentWordLength)
                                 // Add word to tracking array unless a word in that spot exists - then replace it
                                 if (trackingArray.length <= maxLoops - n) {
-                                    trackingArray.push(sortedWordDict[i]) // add new word to trackingArray
+                                    trackingArray.push(currentWord) // add new word to trackingArray
                                 } else {
-                                    trackingArray.splice(maxLoops - n,1,sortedWordDict[i]) // replace word in trackingArray
+                                    trackingArray.splice(maxLoops - n,1,currentWord) // replace word in trackingArray
                                 }
                                 break
                             }
@@ -379,12 +457,11 @@ const wordBreak = function(s, wordDict) {
 }
 
 /*
-Runtime 66 ms
-Beats 39.53%
-Memory 48.6 MB
+Runtime 73 ms
+Beats 19.38%
+Memory 47.9 MB
 Beats 5.8%
 */
-
 
 
 console.log('test1: ' + wordBreak( s1 , wordDict1 )) //TRUE
