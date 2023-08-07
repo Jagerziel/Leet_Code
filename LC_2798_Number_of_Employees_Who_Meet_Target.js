@@ -74,30 +74,104 @@ Beats 18.98%
 
 // SOLUTION 2: BURN CANDLE AT BOTH ENDS
 
-var numberOfEmployeesWhoMetTarget = function(hours, target) {
-    // Track employees who met target
-    let metTarget = 0
-    if (hours.length % 2 === 1) {
-        if (hours[hours.length - 1] >= target) metTarget++
-        hours.pop()
-    }
-    let employees = hours.length / 2
+// var numberOfEmployeesWhoMetTarget = function(hours, target) {
+//     // Track employees who met target
+//     let metTarget = 0
+//     if (hours.length % 2 === 1) {
+//         if (hours[hours.length - 1] >= target) metTarget++
+//         hours.pop()
+//     }
+//     let employees = hours.length / 2
 
-    // Loop and add one to metTarget counter for each that met target
-    for (let i = 0; i < employees; i++) {
-        if (hours[i] >= target) metTarget++
-        if (hours[i + employees] >= target) metTarget++
-    }
-    // Return result
-    return metTarget
-};
+//     // Loop and add one to metTarget counter for each that met target
+//     for (let i = 0; i < employees; i++) {
+//         if (hours[i] >= target) metTarget++
+//         if (hours[i + employees] >= target) metTarget++
+//     }
+//     // Return result
+//     return metTarget
+// };
 
 
-console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
+// console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
 
 /*
 Runtime 53 ms
 Beats 77.62%
 Memory 43.6 MB
 Beats 75.82%
+*/
+
+// SOLUTION 3: TRIPLE CHECK - NOT THE MOST EFFICIENT
+
+// var numberOfEmployeesWhoMetTarget = function(hours, target) {
+//     // Track employees who met target
+//     let metTarget = 0
+//     let remainder = hours.length % 3
+//     if (remainder > 0) {
+//         if (hours[hours.length - 1] >= target) metTarget++
+//         hours.pop()
+//         if (remainder === 2) {
+//             if (hours[hours.length - 1] >= target) metTarget++
+//             hours.pop()
+//         }
+//     }
+//     let employees = hours.length / 3
+
+//     // Loop and add one to metTarget counter for each that met target
+//     for (let i = 0; i < employees; i++) {
+//         if (hours[i] >= target) metTarget++
+//         if (hours[i + employees] >= target) metTarget++
+//         if (hours[i + employees + employees] >= target) metTarget++
+//     }
+//     // Return result
+//     return metTarget
+// };
+
+
+// console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
+
+/*
+Runtime 60 ms
+Beats 38.76%
+Memory 43.4 MB
+Beats 81.32%
+*/
+
+
+// SOLUTION 4: BIFURCATE IF STATEMENT FROM SOLUTION 2
+
+var numberOfEmployeesWhoMetTarget = function(hours, target) {
+    // Track employees who met target
+    let metTarget = 0
+    if (hours.length % 2 === 1) {
+        if (hours[hours.length - 1] >= target) metTarget++
+        hours.pop()
+        let employees = hours.length / 2
+    
+        // Loop and add one to metTarget counter for each that met target
+        for (let i = 0; i < employees; i++) {
+            if (hours[i] >= target) metTarget++
+            if (hours[i + employees] >= target) metTarget++
+        }
+    } else {
+        let employees = hours.length / 2
+    
+        // Loop and add one to metTarget counter for each that met target
+        for (let i = 0; i < employees; i++) {
+            if (hours[i] >= target) metTarget++
+            if (hours[i + employees] >= target) metTarget++
+        }
+    }
+    // Return result
+    return metTarget
+};
+
+console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
+
+/*
+Runtime 46 ms
+Beats 95.50%
+Memory 43.9 MB
+Beats 47.35%
 */
