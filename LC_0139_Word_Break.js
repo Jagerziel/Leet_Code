@@ -234,6 +234,86 @@ Beats 5.8%
 
 // ATTEMPT 3: ATTEMPT TO BREAK RECURSION AFTER SUCCESS - SLIGHT IMPROVEMENT
 
+// const wordBreak = function(s, wordDict) {
+//     let remainingString = s // Set remaining string variable
+//     let wordDictLen = wordDict.length // Calculate length of dictionary array once
+//     let sortedWordDict = wordDict.sort().reverse() // Reverse order so longest words come first in alphabetical order
+//     let trackingArray = [] // Tracks words that have already been used and are valid
+//     let minWordLen = 0 // Used to 
+//     let finalResult = false // Used to return final result
+
+//     for (let i = 0; i < wordDictLen; i++) {
+//         if (i === 0) minWordLen = sortedWordDict[i].length
+//         if (sortedWordDict[i].length < minWordLen) minWordLen = sortedWordDict[i].length
+//     }
+
+//     let maxLoops = Math.ceil(s.length / minWordLen)
+    
+//     function checkNextWord (n) {
+//         // Break recursion conditions
+//         if ( n === 0) return 
+
+//         // Run main loop for n rounds
+//         MainLoop: for (let rounds = 0; rounds < n; rounds++) {
+//             // Loop through each word in the dictionary to check if equal to first x characters of that string's length
+//             for (let i = 0; i < wordDictLen; i++) {
+//                 // If the remaining string's length is equal to the word's length, finalResult is true
+//                 if ( sortedWordDict[i] === remainingString.slice(0, sortedWordDict[i].length)) {
+//                     if ( sortedWordDict[i].length === remainingString.length) {
+//                         finalResult = true
+//                         n = 0
+//                         return
+//                     } else if ( sortedWordDict[i].length > remainingString.length && i === wordDictLen - 1) {
+//                         checkNextWord(n - 1) // trigger recursive function
+//                     } else if ( sortedWordDict[i].length > remainingString.length) {
+//                         continue // skip word
+//                     } else if ( trackingArray.length > 0 && trackingArray[rounds] === remainingString.slice(0, sortedWordDict[i].length)) {
+//                         continue // skip word
+//                     } else {
+//                         // Check if next word is valid.  If so, keep current word and deduct it from the remainingString
+//                         let tempRemainingString = remainingString.slice(sortedWordDict[i].length)
+//                         for (let k = 0; k < wordDictLen; k++) {
+//                             if (sortedWordDict[k] === tempRemainingString.slice(0, sortedWordDict[k].length)) {
+//                                 remainingString = remainingString.slice(sortedWordDict[i].length)
+//                                 // Add word to tracking array unless a word in that spot exists - then replace it
+//                                 if (trackingArray.length <= maxLoops - n) {
+//                                     trackingArray.push(sortedWordDict[i]) // add new word to trackingArray
+//                                 } else {
+//                                     trackingArray.splice(maxLoops - n,1,sortedWordDict[i]) // replace word in trackingArray
+//                                 }
+//                                 break
+//                             }
+//                         }
+//                     }
+//                 } 
+//             }   
+
+//             if (rounds === n - 1) {
+//                 remainingString = s // Reset string value
+//                 checkNextWord(n - 1) // Trigger recursive function 
+//             }  
+//         }
+//     }
+
+//     // Run function
+//     checkNextWord(maxLoops)
+
+//     // Return result
+//     return finalResult
+// }
+
+
+/*
+Runtime 63 ms
+Beats 51.41%
+Memory 48.5 MB
+Beats 5.8%
+*/
+
+
+
+// ATTEMPT 4: ATTEMPT TO REMOVE UNNECESSARY CHECKS 
+
 const wordBreak = function(s, wordDict) {
     let remainingString = s // Set remaining string variable
     let wordDictLen = wordDict.length // Calculate length of dictionary array once
@@ -263,10 +343,6 @@ const wordBreak = function(s, wordDict) {
                         finalResult = true
                         n = 0
                         return
-                    } else if ( sortedWordDict[i].length > remainingString.length && i === wordDictLen - 1) {
-                        checkNextWord(n - 1) // trigger recursive function
-                    } else if ( sortedWordDict[i].length > remainingString.length) {
-                        continue // skip word
                     } else if ( trackingArray.length > 0 && trackingArray[rounds] === remainingString.slice(0, sortedWordDict[i].length)) {
                         continue // skip word
                     } else {
@@ -302,18 +378,12 @@ const wordBreak = function(s, wordDict) {
     return finalResult
 }
 
-
 /*
-Runtime 63 ms
-Beats 51.41%
-Memory 48.5 MB
+Runtime 66 ms
+Beats 39.53%
+Memory 48.6 MB
 Beats 5.8%
 */
-
-
-
-
-
 
 
 
