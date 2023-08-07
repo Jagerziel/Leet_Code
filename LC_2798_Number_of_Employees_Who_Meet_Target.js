@@ -50,13 +50,43 @@ let target1 = 2
 
 // SOLUTION 1: TRADITIONAL FOR LOOP
 
+// var numberOfEmployeesWhoMetTarget = function(hours, target) {
+//     // Track employees who met target
+//     let metTarget = 0
+
+//     // Loop and add one to metTarget counter for each that met target
+//     for (let i = 0; i < hours.length; i++) {
+//         if (hours[i] >= target) metTarget++
+//     }
+//     // Return result
+//     return metTarget
+// };
+
+
+// console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
+
+/* 
+Runtime 58 ms
+Beats 52.15%
+Memory 44.1 MB
+Beats 18.98%
+*/
+
+// SOLUTION 2: BURN CANDLE AT BOTH ENDS
+
 var numberOfEmployeesWhoMetTarget = function(hours, target) {
     // Track employees who met target
     let metTarget = 0
+    if (hours.length % 2 === 1) {
+        if (hours[hours.length - 1] >= target) metTarget++
+        hours.pop()
+    }
+    let employees = hours.length / 2
 
     // Loop and add one to metTarget counter for each that met target
-    for (let i = 0; i < hours.length; i++) {
+    for (let i = 0; i < employees; i++) {
         if (hours[i] >= target) metTarget++
+        if (hours[i + employees] >= target) metTarget++
     }
     // Return result
     return metTarget
@@ -65,9 +95,9 @@ var numberOfEmployeesWhoMetTarget = function(hours, target) {
 
 console.log(numberOfEmployeesWhoMetTarget(hours1, target1))
 
-/* 
-Runtime 58 ms
-Beats 52.15%
-Memory 44.1 MB
-Beats 18.98%
+/*
+Runtime 53 ms
+Beats 77.62%
+Memory 43.6 MB
+Beats 75.82%
 */
