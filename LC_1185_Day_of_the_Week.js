@@ -72,22 +72,51 @@ Beats 54.30%
 
 
 // ATTEMPT 2: CODED MANUALLY
+// var dayOfTheWeek = function(day, month, year) {
+//     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+//     const months = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
+//     let startingDay = 3
+//     let yearMod = year - (1969) 
+//     let leapYearMod = Math.floor((year - (1969)) / 4) 
+//     let monthMod = month > 1 ? months[month - 2] : 0
+//     let dayMod = day - 1
+//     let leapYearAdjReq = year % 4 === 0 ? leapYearAdj(year, month) : 0
+//     let totalMod = 
+//         startingDay + 
+//         yearMod + 
+//         leapYearMod +
+//         leapYearAdjReq +
+//         monthMod + 
+//         dayMod
+
+//     function leapYearAdj (year , month) {
+//         if (year === 2100) return 0
+//         if (month > 2) return 1
+//         return 0
+//     }
+
+//     return days[totalMod % 7]
+// };
+
+/*
+Runtime 51 ms
+Beats 84.11%
+Memory 42.2 MB
+Beats 75.50%
+*/
+
+// ATTEMPT 3: CODED MANUALLY - CONSOLIDATED
 var dayOfTheWeek = function(day, month, year) {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    const months = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
-    let startingDay = 3
-    let yearMod = year - (1969) 
-    let leapYearMod = Math.floor((year - (1969)) / 4) 
-    let monthMod = month > 1 ? months[month - 2] : 0
-    let dayMod = day - 1
-    let leapYearAdjReq = year % 4 === 0 ? leapYearAdj(year, month) : 0
+    const months = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
+
     let totalMod = 
-        startingDay + 
-        yearMod + 
-        leapYearMod +
-        leapYearAdjReq +
-        monthMod + 
-        dayMod
+        2 + // starting day 
+        (year - 1969) + // year modifier
+        Math.floor((year - (1969)) / 4) + // leap year modifier
+        (year % 4 === 0 ? leapYearAdj(year, month) : 0) + // leap year adjustment
+        (month > 1 ? months[month - 2] : 0) + // month modifier
+        (day) // day modifier
 
     function leapYearAdj (year , month) {
         if (year === 2100) return 0
@@ -99,12 +128,11 @@ var dayOfTheWeek = function(day, month, year) {
 };
 
 /*
-Runtime 51 ms
-Beats 84.11%
-Memory 42.2 MB
-Beats 75.50%
+Runtime 55 ms
+Beats 70.20%
+Memory 41.3 MB
+Beats 98.1%
 */
-
 
 
 console.log(dayOfTheWeek(day1, month1, year1))
