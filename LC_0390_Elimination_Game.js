@@ -99,6 +99,38 @@ let test5000 = 10000000
 // ATTEMPT 2: SPLICE - TIMES OUT at 1000000 (3373 / 3377 testcases passed)
 
 
+// var lastRemaining = function(n) {
+//     if (n === 1) return 1
+
+//     let resultArray = []
+//     let direction = false
+    
+//     for (let i = 1; i < n; i += 2) {
+//         resultArray.push(i + 1)
+//     }
+
+//     while (resultArray.length > 1) {
+//         let resultArrayEven = resultArray.length % 2
+//         let applciationSum = resultArrayEven + (direction ? 1 : 0)
+//         if (applciationSum === 0) {
+//             for (let i = 1; i < resultArray.length; i ++) {
+//                 resultArray.splice(i, 1)
+//                 console.log(resultArray.length)
+//             }
+//             direction = !direction
+//         } else {
+//             for (let i = 0; i < resultArray.length; i ++) {
+//                 resultArray.splice(i, 1)
+//             }
+//             direction = !direction
+//         }
+
+//     }
+//     return resultArray
+// };
+
+// ATTEMPT 3: SPLICE with FILTER: RUNTIME ERROR: 3375 / 3377 testcases passed
+
 var lastRemaining = function(n) {
     if (n === 1) return 1
 
@@ -113,15 +145,16 @@ var lastRemaining = function(n) {
         let resultArrayEven = resultArray.length % 2
         let applciationSum = resultArrayEven + (direction ? 1 : 0)
         if (applciationSum === 0) {
-            for (let i = 1; i < resultArray.length; i ++) {
-                resultArray.splice(i, 1)
-                console.log(resultArray.length)
-            }
+            resultArray = resultArray.filter((num, idx)=> {
+                if(idx % 2 === 0) {
+                    return num
+                }
+            })
             direction = !direction
         } else {
-            for (let i = 0; i < resultArray.length; i ++) {
-                resultArray.splice(i, 1)
-            }
+            resultArray = resultArray.filter((num, idx)=> {
+                if (idx % 2 === 1) return num
+            })
             direction = !direction
         }
 
