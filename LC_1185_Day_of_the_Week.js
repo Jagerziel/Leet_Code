@@ -48,18 +48,20 @@ let [day2, month2, year2]= [18, 7, 1999] // Sunday
 let [day3, month3, year3]= [15, 8, 1993] // Sunday
 let [day4, month4, year4]= [1, 1, 1971] // Friday
 let [day5, month5, year5]= [8, 8, 2023] // Tuesday
+let [day6, month6, year6]= [1, 1, 1972] // Saturday
+let [day7, month7, year7]= [29, 2, 2016] // Monday
 
 
 // ATTEMPT 1: USING DATE() FUNCTION IN JS
 
-var dayOfTheWeek = function(day, month, year) {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+// var dayOfTheWeek = function(day, month, year) {
+//     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+//     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-    const date = new Date(`${months[month - 1]} ${day}, ${year}`)
+//     const date = new Date(`${months[month - 1]} ${day}, ${year}`)
 
-    return days[date.getDay()]
-};
+//     return days[date.getDay()]
+// };
 
 /*
 Runtime 59 ms
@@ -69,6 +71,39 @@ Beats 54.30%
 */
 
 
+// ATTEMPT 2: CODED MANUALLY
+var dayOfTheWeek = function(day, month, year) {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const months = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
+    let startingDay = 3
+    let yearMod = year - (1969) 
+    let leapYearMod = Math.floor((year - (1969)) / 4) 
+    let monthMod = month > 1 ? months[month - 2] : 0
+    let dayMod = day - 1
+    let leapYearAdjReq = year % 4 === 0 ? leapYearAdj(year, month) : 0
+    let totalMod = 
+        startingDay + 
+        yearMod + 
+        leapYearMod +
+        leapYearAdjReq +
+        monthMod + 
+        dayMod
+
+    function leapYearAdj (year , month) {
+        if (year === 2100) return 0
+        if (month > 2) return 1
+        return 0
+    }
+
+    return days[totalMod % 7]
+};
+
+/*
+Runtime 51 ms
+Beats 84.11%
+Memory 42.2 MB
+Beats 75.50%
+*/
 
 
 
@@ -77,4 +112,6 @@ console.log(dayOfTheWeek(day2, month2, year2))
 console.log(dayOfTheWeek(day3, month3, year3))
 console.log(dayOfTheWeek(day4, month4, year4))
 console.log(dayOfTheWeek(day5, month5, year5))
+console.log(dayOfTheWeek(day6, month6, year6))
+console.log(dayOfTheWeek(day7, month7, year7))
 
