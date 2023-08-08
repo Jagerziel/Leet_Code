@@ -29,58 +29,125 @@ Output: 1
  * @return {number}
 */
 
-let test1 = 9
-let test2 = 1 
-let test3 = 11
-let test4 = 10
-let test5 = 10000000
+let test1 = 1
+let test2 = 2 
+let test3 = 3
+let test4 = 4
+let test5 = 5
+let test6 = 6
+let test7 = 7
+let test8 = 8
+let test9 = 9
+let test10 = 10
+let test11 = 11
+let test12 = 12
+let test13 = 13
+let test14 = 14
+let test15 = 15
+let test16 = 16
+let test17 = 17
+let test18 = 18
+let test19 = 19
+let test20 = 20
+let test21 = 21
 
-// ATTEMPT 1: SOLUTION WORKS BUT TIMES OUT
+let test5000 = 10000000
+
+// ATTEMPT 1: SOLUTION WORKS BUT TIMES OUT: 3374 / 3377 testcases passed (failed at 10000000)
+
+// var lastRemaining = function(n) {
+//     if (n === 1) return 1
+
+//     let resultArray = []
+//     let direction = true // true = left, false = right
+    
+//     for (let i = 1; i < n; i += 2) {
+//         resultArray.push(i + 1)
+//     }
+//     // console.log(resultArray)
+
+//     function leftToRight ( arr ) {
+//         let returnArr = []
+//         for (let i = 1; i < arr.length; i += 2) {
+//             returnArr.push(arr[i])
+//         }
+//         return returnArr
+//     }
+
+//     function rightToLeft ( arr ) {
+//         let returnArr = []
+//         for (let i = arr.length - 2; i >= 0; i -= 2) {
+//             returnArr.unshift(arr[i])
+//         }
+//         return returnArr
+//     }
+
+//     while (resultArray.length > 1) {
+//         if (direction === true) {
+//             resultArray = rightToLeft(resultArray)
+//         } else {
+//             resultArray = leftToRight(resultArray)
+//         }
+//         direction = !direction
+//     }
+
+//     return resultArray
+// };
+
+
+
+// ATTEMPT 2: SPLICE - TIMES OUT at 1000000 (3373 / 3377 testcases passed)
+
 
 var lastRemaining = function(n) {
     if (n === 1) return 1
 
     let resultArray = []
-    let direction = true // true = left, false = right
+    let direction = false
     
     for (let i = 1; i < n; i += 2) {
         resultArray.push(i + 1)
     }
-    // console.log(resultArray)
-
-    function leftToRight ( arr ) {
-        let returnArr = []
-        for (let i = 1; i < arr.length; i += 2) {
-            returnArr.push(arr[i])
-        }
-        return returnArr
-    }
-
-    function rightToLeft ( arr ) {
-        let returnArr = []
-        for (let i = arr.length - 2; i >= 0; i -= 2) {
-            returnArr.unshift(arr[i])
-        }
-        return returnArr
-    }
 
     while (resultArray.length > 1) {
-        if (direction === true) {
-            resultArray = rightToLeft(resultArray)
+        let resultArrayEven = resultArray.length % 2
+        let applciationSum = resultArrayEven + (direction ? 1 : 0)
+        if (applciationSum === 0) {
+            for (let i = 1; i < resultArray.length; i ++) {
+                resultArray.splice(i, 1)
+                console.log(resultArray.length)
+            }
+            direction = !direction
         } else {
-            resultArray = leftToRight(resultArray)
+            for (let i = 0; i < resultArray.length; i ++) {
+                resultArray.splice(i, 1)
+            }
+            direction = !direction
         }
-        direction = !direction
-    }
 
+    }
     return resultArray
 };
+
+
+
+
 
 // console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
 // console.log(lastRemaining(test3))
-// console.log(lastRemaining(test4))
-console.log(lastRemaining(test5))
+// console.log(lastRemaining(test5))
+// console.log(lastRemaining(test9))
+
+// console.log(lastRemaining(test19))
+console.log(lastRemaining(test20))
+// console.log(lastRemaining(test5000))
+
+
+
+// for (let i = 1; i < 50; i++) {
+//     console.log(`Test ${i}: ${lastRemaining(i)}`)
+// }
 
 
 
