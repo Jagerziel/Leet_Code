@@ -83,14 +83,14 @@ Beats 97.14%
 
 //ATTEMPT 4: OPTIMAL SOLUTION USING IF STATEMENT
 
-var accountBalanceAfterPurchase = function(purchaseAmount) {
-    let calc = 100 - purchaseAmount
-    let mod = purchaseAmount % 10
+// var accountBalanceAfterPurchase = function(purchaseAmount) {
+//     let calc = 100 - purchaseAmount
+//     let mod = purchaseAmount % 10
 
-    if (mod >= 5) return calc - (10 - mod)
-    return calc + mod
+//     if (mod >= 5) return calc - (10 - mod)
+//     return calc + mod
 
-};
+// };
 
 /*
 Runtime 45 ms
@@ -99,6 +99,20 @@ Memory 41.2 MB
 Beats 96%
 */
 
+//ATTEMPT 4: SLIGHTLY MORE EFFICIENT OPTIMAL SOLUTION USING IF STATEMENT
+
+var accountBalanceAfterPurchase = function(purchaseAmount) {
+    let mod = purchaseAmount % 10
+    if (mod >= 5) return 100 - purchaseAmount - (10 - mod)
+    return 100 - purchaseAmount + mod
+};
+
+/*
+Runtime 43 ms
+Beats 90.29%
+Memory 41.2 MB
+Beats 94.29%
+*/
 
 
 console.log(accountBalanceAfterPurchase(test1))
