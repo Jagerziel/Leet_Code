@@ -39,15 +39,66 @@ let test2 = 15
 
 // ATTEMPT 1: ONE LINE SOLUTION
 
-var accountBalanceAfterPurchase = function(purchaseAmount) {
-    return 100 - Math.round(purchaseAmount / 10) * 10
-};
+// var accountBalanceAfterPurchase = function(purchaseAmount) {
+//     return 100 - Math.round(purchaseAmount / 10) * 10
+// };
 /*
 Runtime 57 ms
 Beats 14.86%
 Memory 41.8 MB
 Beats 67.43%
 */
+
+// ATTEMPT 2: OPTIMAL WITHOUT MATH LIBRARY
+
+// var accountBalanceAfterPurchase = function(purchaseAmount) {
+//     let modifier = purchaseAmount % 10
+//     let result = modifier >= 5 ? 100 - purchaseAmount - (10 - modifier) : 100 - purchaseAmount + (modifier)
+
+//     return result
+    
+// };
+
+/*
+Runtime 61 ms
+Beats 6.86%
+Memory 41.7 MB
+Beats 67.43%
+
+*/
+
+//ATTEMPT 3: TWO LINE SOLUTION
+
+// var accountBalanceAfterPurchase = function(purchaseAmount) {
+//     let deduction = Math.round(purchaseAmount / 10) * 10
+//     return 100 - deduction
+// };
+
+/*
+Runtime 55 ms
+Beats 22.86%
+Memory 41.1 MB
+Beats 97.14%
+*/
+
+//ATTEMPT 4: OPTIMAL SOLUTION USING IF STATEMENT
+
+var accountBalanceAfterPurchase = function(purchaseAmount) {
+    let calc = 100 - purchaseAmount
+    let mod = purchaseAmount % 10
+
+    if (mod >= 5) return calc - (10 - mod)
+    return calc + mod
+
+};
+
+/*
+Runtime 45 ms
+Beats 86.86%
+Memory 41.2 MB
+Beats 96%
+*/
+
 
 
 console.log(accountBalanceAfterPurchase(test1))
