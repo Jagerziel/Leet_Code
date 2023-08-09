@@ -217,11 +217,63 @@ Memory 46.6 MB
 Beats 40.82%
 */
 
-console.log(lastRemaining(test1))
+// ATTEMPT 5: NO ARRAY, REFACTORING MOD
+
+var lastRemaining = function(n) {
+    let currNum = 1,
+        tempNum = 1,
+        direction = true,
+        modifier = 1
+
+    while (true) {
+        if (direction === true) {
+            tempNum += modifier
+            if (tempNum <= n) {
+                modifier *= 2
+                currNum = tempNum
+                while (true) {
+                    tempNum += modifier
+                    if (tempNum <= n) {
+                        currNum = tempNum
+                    } else {
+                        tempNum = currNum
+                        direction = false
+                        break
+                    }
+                }
+            } else return [currNum]
+        } else {
+            tempNum -= modifier
+            if (tempNum > 0) {
+                modifier *= 2
+                currNum = tempNum
+                while (true) {
+                    tempNum -= modifier
+                    if (tempNum > 0) {
+                        currNum = tempNum
+                    } else {
+                        tempNum = currNum
+                        direction = true
+                        break
+                    }
+                }
+            } else return [currNum]
+        }
+    }
+};
+
+/*
+Runtime 589 ms
+Beats 6.12%
+Memory 45.8 MB
+Beats 91.84%
+*/
+
+// console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
 // console.log(lastRemaining(test3))
 // console.log(lastRemaining(test5))
-// console.log(lastRemaining(test9))
+console.log(lastRemaining(test9))
 // console.log(lastRemaining(test10))
 
 // console.log(lastRemaining(test19))
