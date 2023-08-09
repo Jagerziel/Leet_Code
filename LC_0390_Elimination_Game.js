@@ -269,11 +269,53 @@ Memory 45.8 MB
 Beats 91.84%
 */
 
+// ATTEMPT 6: NO ARRAY, REMOVE TEMPNUM (minimal effect in runtime resulted and loss in memory efficiency)
+
+var lastRemaining = function(n) {
+    let currNum = 1,
+        direction = true,
+        modifier = 1
+
+    while (true) {
+        if (direction === true) {
+            currNum += modifier
+            if (currNum <= n) {
+                modifier *= 2
+                while (currNum <= n) {
+                    currNum += modifier
+                    console.log(currNum)
+                }
+                currNum -= modifier
+                direction = false
+            } else return [currNum -= modifier]
+        } else {
+            currNum -= modifier
+            if (currNum > 0) {
+                modifier *= 2
+                while (currNum > 0) {
+                    currNum -= modifier
+                }
+                currNum += modifier
+                direction = true
+            } else return [currNum += modifier]
+        }
+    }
+};
+
+/*
+Runtime 579 ms
+Beats 6.12%
+Memory 46.6 MB
+Beats42.86%
+*/
+
 // console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
 // console.log(lastRemaining(test3))
+console.log(lastRemaining(test4))
+
 // console.log(lastRemaining(test5))
-console.log(lastRemaining(test9))
+// console.log(lastRemaining(test9))
 // console.log(lastRemaining(test10))
 
 // console.log(lastRemaining(test19))
