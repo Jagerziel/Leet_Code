@@ -131,54 +131,106 @@ let test5000 = 10000000
 
 // ATTEMPT 3: SPLICE with FILTER: RUNTIME ERROR: 3375 / 3377 testcases passed
 
-var lastRemaining = function(n) {
-    if (n === 1) return 1
+// var lastRemaining = function(n) {
+//     if (n === 1) return 1
 
-    let resultArray = []
-    let direction = false
+//     let resultArray = []
+//     let direction = false
     
-    for (let i = 1; i < n; i += 2) {
-        resultArray.push(i + 1)
-    }
+//     for (let i = 1; i < n; i += 2) {
+//         resultArray.push(i + 1)
+//     }
 
-    while (resultArray.length > 1) {
-        let resultArrayEven = resultArray.length % 2
-        let applciationSum = resultArrayEven + (direction ? 1 : 0)
-        if (applciationSum === 0) {
-            resultArray = resultArray.filter((num, idx)=> {
-                if(idx % 2 === 0) {
-                    return num
+//     while (resultArray.length > 1) {
+//         let resultArrayEven = resultArray.length % 2
+//         let applciationSum = resultArrayEven + (direction ? 1 : 0)
+//         if (applciationSum === 0) {
+//             resultArray = resultArray.filter((num, idx)=> {
+//                 if(idx % 2 === 0) {
+//                     return num
+//                 }
+//             })
+//             direction = !direction
+//         } else {
+//             resultArray = resultArray.filter((num, idx)=> {
+//                 if (idx % 2 === 1) return num
+//             })
+//             direction = !direction
+//         }
+
+//     }
+//     return resultArray
+// };
+
+
+// ATTEMPT 4: NO ARRAY
+
+var lastRemaining = function(n) {
+    let currNum = 1,
+        tempNum = 1,
+        direction = true,
+        modifier = 0
+
+    while (true) {
+        if (direction === true) {
+            tempNum += 2 ** modifier
+            if (tempNum <= n) {
+                modifier++
+                currNum = tempNum
+                let tempMod = 2 ** modifier
+                while (true) {
+                    tempNum += tempMod
+                    if (tempNum <= n) {
+                        currNum = tempNum
+                    } else {
+                        tempNum = currNum
+                        direction = false
+                        break
+                    }
                 }
-            })
-            direction = !direction
+            } else return [currNum]
         } else {
-            resultArray = resultArray.filter((num, idx)=> {
-                if (idx % 2 === 1) return num
-            })
-            direction = !direction
+            tempNum -= 2 ** modifier
+            if (tempNum > 0) {
+                modifier++
+                currNum = tempNum
+                let tempMod = 2 ** modifier
+                while (true) {
+                    tempNum -= tempMod
+                    if (tempNum > 0) {
+                        currNum = tempNum
+                    } else {
+                        tempNum = currNum
+                        direction = true
+                        break
+                    }
+                }
+            } else return [currNum]
         }
-
     }
-    return resultArray
 };
 
+/*
+Runtime 1350 ms
+Beats 6.12%
+Memory 46.6 MB
+Beats 40.82%
+*/
 
-
-
-
-// console.log(lastRemaining(test1))
+console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
 // console.log(lastRemaining(test3))
 // console.log(lastRemaining(test5))
 // console.log(lastRemaining(test9))
+// console.log(lastRemaining(test10))
 
 // console.log(lastRemaining(test19))
-console.log(lastRemaining(test20))
+// console.log(lastRemaining(test20))
 // console.log(lastRemaining(test5000))
 
 
 
-// for (let i = 1; i < 50; i++) {
+// for (let i = 1; i < 101; i++) {
 //     console.log(`Test ${i}: ${lastRemaining(i)}`)
 // }
 
