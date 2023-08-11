@@ -50,6 +50,7 @@ let test18 = 18
 let test19 = 19
 let test20 = 20
 let test21 = 21
+let test24 = 24
 
 let test5000 = 10000000
 
@@ -165,50 +166,50 @@ let test5000 = 10000000
 
 // ATTEMPT 4: NO ARRAY
 
-var lastRemaining = function(n) {
-    let currNum = 1,
-        tempNum = 1,
-        direction = true,
-        modifier = 0
+// var lastRemaining = function(n) {
+//     let currNum = 1,
+//         tempNum = 1,
+//         direction = true,
+//         modifier = 0
 
-    while (true) {
-        if (direction === true) {
-            tempNum += 2 ** modifier
-            if (tempNum <= n) {
-                modifier++
-                currNum = tempNum
-                let tempMod = 2 ** modifier
-                while (true) {
-                    tempNum += tempMod
-                    if (tempNum <= n) {
-                        currNum = tempNum
-                    } else {
-                        tempNum = currNum
-                        direction = false
-                        break
-                    }
-                }
-            } else return [currNum]
-        } else {
-            tempNum -= 2 ** modifier
-            if (tempNum > 0) {
-                modifier++
-                currNum = tempNum
-                let tempMod = 2 ** modifier
-                while (true) {
-                    tempNum -= tempMod
-                    if (tempNum > 0) {
-                        currNum = tempNum
-                    } else {
-                        tempNum = currNum
-                        direction = true
-                        break
-                    }
-                }
-            } else return [currNum]
-        }
-    }
-};
+//     while (true) {
+//         if (direction === true) {
+//             tempNum += 2 ** modifier
+//             if (tempNum <= n) {
+//                 modifier++
+//                 currNum = tempNum
+//                 let tempMod = 2 ** modifier
+//                 while (true) {
+//                     tempNum += tempMod
+//                     if (tempNum <= n) {
+//                         currNum = tempNum
+//                     } else {
+//                         tempNum = currNum
+//                         direction = false
+//                         break
+//                     }
+//                 }
+//             } else return [currNum]
+//         } else {
+//             tempNum -= 2 ** modifier
+//             if (tempNum > 0) {
+//                 modifier++
+//                 currNum = tempNum
+//                 let tempMod = 2 ** modifier
+//                 while (true) {
+//                     tempNum -= tempMod
+//                     if (tempNum > 0) {
+//                         currNum = tempNum
+//                     } else {
+//                         tempNum = currNum
+//                         direction = true
+//                         break
+//                     }
+//                 }
+//             } else return [currNum]
+//         }
+//     }
+// };
 
 /*
 Runtime 1350 ms
@@ -219,48 +220,48 @@ Beats 40.82%
 
 // ATTEMPT 5: NO ARRAY, REFACTORING MOD
 
-var lastRemaining = function(n) {
-    let currNum = 1,
-        tempNum = 1,
-        direction = true,
-        modifier = 1
+// var lastRemaining = function(n) {
+//     let currNum = 1,
+//         tempNum = 1,
+//         direction = true,
+//         modifier = 1
 
-    while (true) {
-        if (direction === true) {
-            tempNum += modifier
-            if (tempNum <= n) {
-                modifier *= 2
-                currNum = tempNum
-                while (true) {
-                    tempNum += modifier
-                    if (tempNum <= n) {
-                        currNum = tempNum
-                    } else {
-                        tempNum = currNum
-                        direction = false
-                        break
-                    }
-                }
-            } else return [currNum]
-        } else {
-            tempNum -= modifier
-            if (tempNum > 0) {
-                modifier *= 2
-                currNum = tempNum
-                while (true) {
-                    tempNum -= modifier
-                    if (tempNum > 0) {
-                        currNum = tempNum
-                    } else {
-                        tempNum = currNum
-                        direction = true
-                        break
-                    }
-                }
-            } else return [currNum]
-        }
-    }
-};
+//     while (true) {
+//         if (direction === true) {
+//             tempNum += modifier
+//             if (tempNum <= n) {
+//                 modifier *= 2
+//                 currNum = tempNum
+//                 while (true) {
+//                     tempNum += modifier
+//                     if (tempNum <= n) {
+//                         currNum = tempNum
+//                     } else {
+//                         tempNum = currNum
+//                         direction = false
+//                         break
+//                     }
+//                 }
+//             } else return [currNum]
+//         } else {
+//             tempNum -= modifier
+//             if (tempNum > 0) {
+//                 modifier *= 2
+//                 currNum = tempNum
+//                 while (true) {
+//                     tempNum -= modifier
+//                     if (tempNum > 0) {
+//                         currNum = tempNum
+//                     } else {
+//                         tempNum = currNum
+//                         direction = true
+//                         break
+//                     }
+//                 }
+//             } else return [currNum]
+//         }
+//     }
+// };
 
 /*
 Runtime 589 ms
@@ -271,36 +272,36 @@ Beats 91.84%
 
 // ATTEMPT 6: NO ARRAY, REMOVE TEMPNUM (minimal effect in runtime resulted and loss in memory efficiency)
 
-var lastRemaining = function(n) {
-    let currNum = 1,
-        direction = true,
-        modifier = 1
+// var lastRemaining = function(n) {
+//     let currNum = 1,
+//         direction = true,
+//         modifier = 1
 
-    while (true) {
-        if (direction === true) {
-            currNum += modifier
-            if (currNum <= n) {
-                modifier *= 2
-                while (currNum <= n) {
-                    currNum += modifier
-                    console.log(currNum)
-                }
-                currNum -= modifier
-                direction = false
-            } else return [currNum -= modifier]
-        } else {
-            currNum -= modifier
-            if (currNum > 0) {
-                modifier *= 2
-                while (currNum > 0) {
-                    currNum -= modifier
-                }
-                currNum += modifier
-                direction = true
-            } else return [currNum += modifier]
-        }
-    }
-};
+//     while (true) {
+//         if (direction === true) {
+//             currNum += modifier
+//             if (currNum <= n) {
+//                 modifier *= 2
+//                 while (currNum <= n) {
+//                     currNum += modifier
+//                     console.log(currNum)
+//                 }
+//                 currNum -= modifier
+//                 direction = false
+//             } else return [currNum -= modifier]
+//         } else {
+//             currNum -= modifier
+//             if (currNum > 0) {
+//                 modifier *= 2
+//                 while (currNum > 0) {
+//                     currNum -= modifier
+//                 }
+//                 currNum += modifier
+//                 direction = true
+//             } else return [currNum += modifier]
+//         }
+//     }
+// };
 
 /*
 Runtime 579 ms
@@ -309,17 +310,60 @@ Memory 46.6 MB
 Beats42.86%
 */
 
+// ATTEMPT 7: REMOVE WHILE LOOPS
+
+var lastRemaining = function(n) {
+    // Set tracking of current number, direction (left or right), and modifier
+    let currNum = 1,
+        direction = true,
+        modifier = 1
+
+    while (true) {
+        if (direction === true) {
+            // Increase currNum and if it exceeds n, return result
+            currNum += modifier
+            if (currNum <= n) {
+                // Double modifier and find last valid item before n.  Change direction.
+                modifier *= 2
+                currNum += Math.floor((n - currNum) / modifier) * modifier
+                direction = false
+                console.log(currNum)
+            } else return [currNum -= modifier]
+        } else {
+            // Decrease currNum and if it is less than 1, return result
+            currNum -= modifier
+            if (currNum > 0) {
+                // Double modifier and calculate last valid item before 1.  Change direction.
+                modifier *= 2
+                currNum -= Math.floor((currNum - 1) / modifier) * modifier
+                console.log(currNum)
+                direction = true
+            } else return [currNum += modifier]
+        }
+    }
+};
+
+/*
+Runtime 231 ms
+Beats 16.7%
+Memory 52 MB
+Beats 8.93%
+
+*/
+
+
 // console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
 // console.log(lastRemaining(test3))
-console.log(lastRemaining(test4))
+// console.log(lastRemaining(test4))
 
 // console.log(lastRemaining(test5))
 // console.log(lastRemaining(test9))
 // console.log(lastRemaining(test10))
+// console.log(lastRemaining(test12))
 
 // console.log(lastRemaining(test19))
-// console.log(lastRemaining(test20))
+console.log(lastRemaining(test24))
 // console.log(lastRemaining(test5000))
 
 
