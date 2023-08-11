@@ -310,7 +310,7 @@ Memory 46.6 MB
 Beats42.86%
 */
 
-// ATTEMPT 7: REMOVE WHILE LOOPS
+// ATTEMPT 7: REMOVE WHILE LOOPS AND CHANGED MATH.FLOOR to MATH.TRUNC
 
 var lastRemaining = function(n) {
     // Set tracking of current number, direction (left or right), and modifier
@@ -325,9 +325,8 @@ var lastRemaining = function(n) {
             if (currNum <= n) {
                 // Double modifier and find last valid item before n.  Change direction.
                 modifier *= 2
-                currNum += Math.floor((n - currNum) / modifier) * modifier
+                currNum += Math.trunc((n - currNum) / modifier) * modifier
                 direction = false
-                console.log(currNum)
             } else return [currNum -= modifier]
         } else {
             // Decrease currNum and if it is less than 1, return result
@@ -335,8 +334,7 @@ var lastRemaining = function(n) {
             if (currNum > 0) {
                 // Double modifier and calculate last valid item before 1.  Change direction.
                 modifier *= 2
-                currNum -= Math.floor((currNum - 1) / modifier) * modifier
-                console.log(currNum)
+                currNum -= Math.trunc((currNum - 1) / modifier) * modifier
                 direction = true
             } else return [currNum += modifier]
         }
@@ -344,11 +342,10 @@ var lastRemaining = function(n) {
 };
 
 /*
-Runtime 231 ms
-Beats 16.7%
-Memory 52 MB
-Beats 8.93%
-
+Runtime 104 ms
+Beats 78.57%
+Memory 47 MB
+Beats 12.50%
 */
 
 
