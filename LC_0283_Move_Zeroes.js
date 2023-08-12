@@ -31,22 +31,22 @@ test2 = [0]
 test3 = [0,0,1]
 
 
-
-var moveZeroes = function(nums) {
-    let numsLen = nums.length
-    let idx = 0
-    let ct = 0
-    while (ct < numsLen) {
-        if (nums[idx] === 0) {
-            nums.splice(idx, 1)
-            nums.push(0)
-            idx--
-        }
-        ct++
-        idx++
-    }
-    return nums
-};
+// ATTEMPT 1: SPLICE AND PUSH
+// var moveZeroes = function(nums) {
+//     let numsLen = nums.length
+//     let idx = 0
+//     let ct = 0
+//     while (ct < numsLen) {
+//         if (nums[idx] === 0) {
+//             nums.splice(idx, 1)
+//             nums.push(0)
+//             idx--
+//         }
+//         ct++
+//         idx++
+//     }
+//     return nums
+// };
 
 /*
 Runtime 88 ms
@@ -55,7 +55,28 @@ Memory 46.9 MB
 Beats 24.13%
 */
 
+// ATTEMPT 2: USE FOR LOOP AND REMOVE VARIABLE FOR NUMS.LENGTH
+var moveZeroes = function(nums) {
+    let idx = 0
+    for (let ct = 0; ct < nums.length; ct++) {
+        if (nums[idx] === 0) {
+            nums.splice(idx, 1)
+            nums.push(0)
+            idx--
+        }
+        idx++
+    }
+    return nums
+};
+
+/*
+Runtime 76 ms
+Beats 86.88%
+Memory 47.2 MB
+Beats 9.70%
+*/
+
 
 console.log(moveZeroes(test1))
-console.log(moveZeroes(test2))
-console.log(moveZeroes(test3))
+// console.log(moveZeroes(test2))
+// console.log(moveZeroes(test3))
