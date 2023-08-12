@@ -348,6 +348,45 @@ Memory 47 MB
 Beats 12.50%
 */
 
+// ATTEMPT 8: MINOR CHANGES TO DIRECTION AND IF STATEMENT
+
+var lastRemaining = function(n) {
+    // Set tracking of current number, direction (left or right), and modifier
+    let currNum = 1
+    let direction = true
+    let modifier = 1
+
+    while (true) {
+        if (direction) {
+            // Increase currNum and if it exceeds n, return result
+            currNum += modifier
+            if (currNum <= n) {
+                // Double modifier and find last valid item before n.  Change direction.
+                modifier *= 2
+                currNum += Math.trunc((n - currNum) / modifier) * modifier
+            } else return [currNum -= modifier]
+        } else {
+            // Decrease currNum and if it is less than 1, return result
+            currNum -= modifier
+            if (currNum > 0) {
+                // Double modifier and calculate last valid item before 1.  Change direction.
+                modifier *= 2
+                currNum -= Math.trunc((currNum - 1) / modifier) * modifier
+            } else return [currNum += modifier]
+        }
+        direction = !direction
+    }
+};
+
+
+/*
+Runtime 94 ms
+Beats 91.7%
+Memory 47 MB
+Beats 14.29%
+*/
+
+
 
 // console.log(lastRemaining(test1))
 // console.log(lastRemaining(test2))
