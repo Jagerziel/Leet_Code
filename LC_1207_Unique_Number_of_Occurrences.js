@@ -60,6 +60,36 @@ Memory 42.6 MB
 Beats 64.72%
 */
 
+// ATTEMPT 2: OBJECT AND SET FOR UNIQUE VALUES
+
+var uniqueOccurrences = function(arr) {
+    // Set object to contain array item counts
+    let itemCtObj = {}
+
+    // Set Object
+    for (let i = 0; i < arr.length; i++) {
+        if (itemCtObj[arr[i]] > 0) {
+            itemCtObj[arr[i]] = itemCtObj[arr[i]] + 1
+        } else {
+            itemCtObj[arr[i]] = 1
+        }
+    }
+    // Grab object values 
+    let itemCtObjVals = Object.values(itemCtObj)
+    // Create set of unique values
+    let itemCtObjValsUnique = [...new Set(itemCtObjVals)]
+    // Compare lengths of unique values set to object values
+    if (itemCtObjVals.length !== itemCtObjValsUnique.length) return false
+    // Return true if lengths are the same
+    return true
+};
+
+/*
+Runtime 52 ms
+Beats 84.89%
+Memory 42 MB
+Beats 89.34%
+*/
 
 console.log(uniqueOccurrences(test1))
 console.log(uniqueOccurrences(test2))
