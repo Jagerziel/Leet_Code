@@ -71,6 +71,26 @@ Memory 41.7 MB
 Beats 76.74%
 */
 
+// ATTEMPT 3: Shortened Variable Names
+var createCounter = function(n) {
+    // Set Counter
+    let ct = -1
+    return function () {
+        // Increment Counter
+        ct++
+        // Return Result
+        return n + ct
+    };
+};
+
+/*
+Runtime 39 ms
+Beats 99.1%
+Memory 42.2 MB
+Beats 22.98%
+*/
+
+
 
 const counter = createCounter(10)
 console.log(counter())
