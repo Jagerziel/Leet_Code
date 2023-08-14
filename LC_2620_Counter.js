@@ -52,8 +52,24 @@ Memory 41.9 MB
 Beats 54.14%
 */
 
+// ATTEMPT 2: Break Out Counter
+var createCounter = function(n) {
+    // Set Counter
+    let counter = -1
+    return function () {
+        // Increment Counter
+        counter++
+        // Return Result
+        return n + counter
+    };
+};
 
-
+/*
+Runtime 42 ms
+Beats 97.39%
+Memory 41.7 MB
+Beats 76.74%
+*/
 
 
 const counter = createCounter(10)
