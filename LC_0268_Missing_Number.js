@@ -41,19 +41,19 @@ let test1 = [3,0,1], // 2
     test3 = [9,6,4,2,3,5,7,0,1] // 8
 
 
-// var missingNumber = function(nums) {
-//     let numLen = nums.length    
+var missingNumber = function(nums) {
+    let numLen = nums.length    
 
-//     let totalSum = 0
-//     let numsSum = 0
-//     for (let i = 0; i < numLen; i++) {
-//         totalSum += i
-//         numsSum += nums[i]
-//     }
-//     totalSum += numLen
+    let totalSum = 0
+    let numsSum = 0
+    for (let i = 0; i < numLen; i++) {
+        totalSum += i
+        numsSum += nums[i]
+    }
+    totalSum += numLen
 
-//     return totalSum - numsSum
-// };
+    return totalSum - numsSum
+};
 
 /*
 Runtime 61 ms
@@ -63,30 +63,28 @@ Beats 79.15%
 */
 
 var missingNumber = function(nums) {
+    // Track Lengths
     let numLenFull = nums.length
     let numLenHalf = Math.floor(numLenFull / 2)
+    // Track Sums
     let totalSum = 0
     let numsSum = 0
 
+    // Loop Through Array on Both Halves
     for (let i = 0; i < numLenHalf; i++) {
         totalSum += i
         totalSum += numLenHalf + i
         numsSum += nums[i]
         numsSum += nums[numLenHalf + i]
-        // console.log(nums[numLenHalf + 1 + i])
-        // console.log(totalSum)
     }
-
+    // Account for Odd and Even Arrays
     if (numLenFull % 2 === 1) {
         totalSum += (numLenFull * 2) - 1 
         numsSum += nums[numLenFull - 1]
     } else {
         totalSum += numLenFull
     }
-
-
-    // console.log(`total sum: ${totalSum}`)
-    // console.log(`num sum: ${numsSum}`)
+    // Return Result
     return totalSum - numsSum
 };
 
