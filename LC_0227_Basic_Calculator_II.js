@@ -117,66 +117,132 @@ Beats 11.49%
 
 // ATTEMPT 2: CLEAN FUNCTIONS AND OPTIMIZE
 
-var calculate = function(s) {
-    function operationMultDiv(num1, num2, symbol) {
-        return symbol === "*" ? num1 * num2 : Math.trunc(num1 / num2)
-    }
-    function operationAddSubt(num1, num2, symbol) {
-        return symbol === "+" ? num1 + num2 : num1 - num2
-    }
-    let number = "",
-        calcArr = []
-    for (let i = 0; i < s.length; i++) {
-        if (s[i] === " ") continue
-        if (isNaN(parseInt(s[i]))) {
-            calcArr.push(parseInt(number), s[i])
-            number = ""
-        } else {
-            number += s[i]
-        }
-    }
-    calcArr.push(parseInt(number))
+// var calculate = function(s) {
+//     function operationMultDiv(num1, num2, symbol) {
+//         return symbol === "*" ? num1 * num2 : Math.trunc(num1 / num2)
+//     }
+//     function operationAddSubt(num1, num2, symbol) {
+//         return symbol === "+" ? num1 + num2 : num1 - num2
+//     }
+//     let number = "",
+//         calcArr = []
+//     for (let i = 0; i < s.length; i++) {
+//         if (s[i] === " ") continue
+//         if (isNaN(parseInt(s[i]))) {
+//             calcArr.push(parseInt(number), s[i])
+//             number = ""
+//         } else {
+//             number += s[i]
+//         }
+//     }
+//     calcArr.push(parseInt(number))
 
-    if (calcArr.length === 1) return calcArr[0]
+//     if (calcArr.length === 1) return calcArr[0]
 
-    let calcArrLen = calcArr.length,
-        calcArr2 = [],
-        contEval = false,
-        contEvalVal = 0
-    for (let i = 1; i < calcArrLen; i += 2) {
-        if (calcArr[i] === "*" || calcArr[i] === "/") {
-            if (contEval === false) {
-                contEvalVal = operationMultDiv(calcArr[i - 1], calcArr[i + 1], calcArr[i])
-                contEval = true
-            } else {
-                contEvalVal = operationMultDiv(contEvalVal, calcArr[i + 1], calcArr[i])
-            }
-        } else {
-            if (contEval === false) {
-                calcArr2.push(calcArr[i - 1], calcArr[i])
-            } else {
-                calcArr2.push(contEvalVal, calcArr[i])
-                contEval = false
-            }
-        }
-    }
-    if (contEval) calcArr2.push(contEvalVal)
-    else calcArr2.push(calcArr[calcArrLen - 1])
+//     let calcArrLen = calcArr.length,
+//         calcArr2 = [],
+//         contEval = false,
+//         contEvalVal = 0
+//     for (let i = 1; i < calcArrLen; i += 2) {
+//         if (calcArr[i] === "*" || calcArr[i] === "/") {
+//             if (contEval === false) {
+//                 contEvalVal = operationMultDiv(calcArr[i - 1], calcArr[i + 1], calcArr[i])
+//                 contEval = true
+//             } else {
+//                 contEvalVal = operationMultDiv(contEvalVal, calcArr[i + 1], calcArr[i])
+//             }
+//         } else {
+//             if (contEval === false) {
+//                 calcArr2.push(calcArr[i - 1], calcArr[i])
+//             } else {
+//                 calcArr2.push(contEvalVal, calcArr[i])
+//                 contEval = false
+//             }
+//         }
+//     }
+//     if (contEval) calcArr2.push(contEvalVal)
+//     else calcArr2.push(calcArr[calcArrLen - 1])
 
-    contEvalVal = calcArr2[0]
+//     contEvalVal = calcArr2[0]
 
-    for (let i = 1; i < calcArr2.length; i += 2) {
-        contEvalVal = operationAddSubt(contEvalVal , calcArr2[i + 1] , calcArr2[i]) 
-    }
+//     for (let i = 1; i < calcArr2.length; i += 2) {
+//         contEvalVal = operationAddSubt(contEvalVal , calcArr2[i + 1] , calcArr2[i]) 
+//     }
 
-    return contEvalVal
-};
+//     return contEvalVal
+// };
 
 /*
 Runtime 87 ms
 Beats 76.53%
 Memory 68.2 MB
 Beats 10.2%
+*/
+
+// ATTEMPT 3: REMOVING BOOLEAN FOR CONSTEVAL
+
+var calculate = function(s) {
+    // Operator Functions
+    function operationMultDiv(num1, num2, symbol) {
+        return symbol === "*" ? num1 * num2 : Math.trunc(num1 / num2)
+    }
+    function operationAddSubt(num1, num2, symbol) {
+        return symbol === "+" ? num1 + num2 : num1 - num2
+    }
+    // Set Variable to track a full number and s broken down into an array
+    let number = "",
+        calcArr = []
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === " ") continue // Skip spaces
+        if (isNaN(parseInt(s[i]))) { // Push Operator and Full Number
+            calcArr.push(parseInt(number), s[i])
+            number = ""
+        } else { // Add character to number string to get full number
+            number += s[i]
+        }
+    }
+    calcArr.push(parseInt(number)) // Push last number into array
+
+    if (calcArr.length === 1) return calcArr[0] // Check if only one number exists
+
+    let calcArrLen = calcArr.length, // Track Array Length
+        calcArr2 = [], // Track New Array
+        contEvalVal = false // Track continually summed values
+    for (let i = 1; i < calcArrLen; i += 2) {
+        if (calcArr[i] === "*" || calcArr[i] === "/") {
+            if (contEvalVal === false) { // Assign number to contEvalVal
+                contEvalVal = operationMultDiv(calcArr[i - 1], calcArr[i + 1], calcArr[i])
+            } else { // Add number to contEvalVal
+                contEvalVal = operationMultDiv(contEvalVal, calcArr[i + 1], calcArr[i])
+            }
+        } else {
+            if (contEvalVal === false) { // Push number and operator to array
+                calcArr2.push(calcArr[i - 1], calcArr[i])
+            } else { // Push current contEvalVal and operator to array.  Reset contEvalVal
+                calcArr2.push(contEvalVal, calcArr[i])
+                contEvalVal = false
+            }
+        }
+    }
+    if (contEvalVal !== false) calcArr2.push(contEvalVal) // Push last value of contEvalVal
+    else calcArr2.push(calcArr[calcArrLen - 1]) // Push last value in calcArr
+
+    contEvalVal = calcArr2[0] // Reset contEvalVal to first number
+
+    // Sum or Subtract all remaining values
+    for (let i = 1; i < calcArr2.length; i += 2) {
+        contEvalVal = operationAddSubt(contEvalVal , calcArr2[i + 1] , calcArr2[i]) 
+    }
+
+    //Return Result
+    return contEvalVal
+};
+
+/*
+Runtime 83 ms
+Beats 84.60%
+Memory 67.7 MB
+Beats 10.51%
 */
 
 console.log(calculate(test1))
