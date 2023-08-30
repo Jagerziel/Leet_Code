@@ -34,7 +34,7 @@ Constraints:
 /*
  * @param {number[]} nums
  * @return {number}
- */
+*/
 
 let test1 = [3,0,1], // 2
     test2 = [0,1], // 2
