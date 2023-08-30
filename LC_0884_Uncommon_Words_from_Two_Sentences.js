@@ -40,6 +40,32 @@ let s1 = "this apple is sweet",
 
 // ATTEMPT 1: LOOP THROUGH COMBINED ARRAY AND RETURN INSTANCES OF ONLY ONE
 
+// var uncommonFromSentences = function(s1, s2) {
+//     let fullArr = s1.split(" ").concat(s2.split(" "))
+
+//     let trackingObj = {}
+
+//     for (let i of fullArr) {
+//         if(trackingObj[i] === undefined) {
+//             trackingObj[i] = 1
+//         } else {
+//             trackingObj[i] += 1
+//         }
+//     }
+
+//     let result = []
+//     let keys = Object.keys(trackingObj)
+
+//     for (let i of keys) {
+//         if (trackingObj[i] === 1) result.push(i)
+//     }
+
+//     return result
+// };
+
+
+// ATTEMPT 2: LOOP THROUGH COMBINED ARRAY AND RETURN INSTANCES OF ONLY ONE
+
 var uncommonFromSentences = function(s1, s2) {
     let fullArr = s1.split(" ").concat(s2.split(" "))
 
@@ -53,14 +79,17 @@ var uncommonFromSentences = function(s1, s2) {
         }
     }
 
-    let result = []
-    let keys = Object.keys(trackingObj)
-
-    for (let i of keys) {
-        if (trackingObj[i] === 1) result.push(i)
-    }
-
-    return result
+    return Object.keys(trackingObj).filter((item) => {
+        if (trackingObj[item] === 1) return item  
+    })
 };
+
+/*
+Runtime 52 ms
+Beats 72.26%
+Memory 41.9 MB
+Beats 80.48%
+
+*/
 
 console.log(uncommonFromSentences(s1, s2))
