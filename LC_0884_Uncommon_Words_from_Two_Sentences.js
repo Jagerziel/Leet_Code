@@ -66,11 +66,40 @@ let s1 = "this apple is sweet",
 
 // ATTEMPT 2: LOOP THROUGH COMBINED ARRAY AND RETURN INSTANCES OF ONLY ONE
 
+// var uncommonFromSentences = function(s1, s2) {
+//     let fullArr = s1.split(" ").concat(s2.split(" "))
+
+//     let trackingObj = {}
+
+//     for (let i of fullArr) {
+//         if(trackingObj[i] === undefined) {
+//             trackingObj[i] = 1
+//         } else {
+//             trackingObj[i] += 1
+//         }
+//     }
+
+//     return Object.keys(trackingObj).filter((item) => {
+//         if (trackingObj[item] === 1) return item  
+//     })
+// };
+
+/*
+Runtime 52 ms
+Beats 72.26%
+Memory 41.9 MB
+Beats 80.48%
+*/
+
+
+// ATTEMPT 3: FIXED RETURN STATEMENT TO BE MORE EFFICIENT
+
 var uncommonFromSentences = function(s1, s2) {
+    // Create one large array of all values
     let fullArr = s1.split(" ").concat(s2.split(" "))
-
+    // Track Object
     let trackingObj = {}
-
+    // Define each array item as the key and the count of each item as the value
     for (let i of fullArr) {
         if(trackingObj[i] === undefined) {
             trackingObj[i] = 1
@@ -78,18 +107,15 @@ var uncommonFromSentences = function(s1, s2) {
             trackingObj[i] += 1
         }
     }
-
-    return Object.keys(trackingObj).filter((item) => {
-        if (trackingObj[item] === 1) return item  
-    })
+    // Return the filtered object where the key only appeared once
+    return Object.keys(trackingObj).filter((item) => trackingObj[item] === 1) 
 };
 
 /*
-Runtime 52 ms
-Beats 72.26%
-Memory 41.9 MB
-Beats 80.48%
-
+Runtime 46 ms
+Beat 91.10%
+Memory 41.8 MB
+Beats 90.75%
 */
 
 console.log(uncommonFromSentences(s1, s2))
