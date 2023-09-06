@@ -33,14 +33,40 @@ let nums03 = [1,2,0]
 
 // ATTEMPT 1: LOOP THROUGH EACH AND ONLY ACT ON '0' and '2'.  Remove and add at beginning or end of array, respectively.
 
+// var sortColors = function(nums) {
+//     let iMod = 0
+//     for (let i = 0; i < nums.length; i++) {
+//         if (nums[i - iMod] === 0) {
+//             nums.splice(i - iMod, 1)
+//             nums.unshift(0)
+//         } else if (nums[i - iMod] === 2) {
+//             nums.splice(i - iMod, 1)
+//             nums.push(2)
+//             iMod++
+//         }
+//     }
+//     return nums
+// };
+
+/*
+Runtime 58 ms
+Beats 37.14%
+Memory 41.8 MB
+Beats 75.9%
+*/
+
+// ATTEMPT 2: ISOLATED INDEX MODIFIER AND ADDED SKIP CONDITION IF VALUE IS EQUAL TO '1'
+
 var sortColors = function(nums) {
     let iMod = 0
     for (let i = 0; i < nums.length; i++) {
-        if (nums[i - iMod] === 0) {
-            nums.splice(i - iMod, 1)
+        let currIdx = i - iMod
+        if (nums[currIdx === 1]) continue
+        if (nums[currIdx] === 0) {
+            nums.splice(currIdx, 1)
             nums.unshift(0)
-        } else if (nums[i - iMod] === 2) {
-            nums.splice(i - iMod, 1)
+        } else if (nums[currIdx] === 2) {
+            nums.splice(currIdx, 1)
             nums.push(2)
             iMod++
         }
@@ -49,11 +75,13 @@ var sortColors = function(nums) {
 };
 
 /*
-Runtime 58 ms
-Beats 37.14%
-Memory 41.8 MB
-Beats 75.9%
+Runtime 44 ms
+Beats 94.75%
+Memory 41.7 MB
+Beats 82.94%
 */
+
+
 
 // console.log(sortColors(nums01))
 // console.log(sortColors(nums02))
