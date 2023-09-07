@@ -37,27 +37,27 @@ let s = "abcd", t = "abcde"
 
 // ATTEMPT 1: Create object and iterate with +/- counter.  Find the non-zero value.
 
-var findTheDifference = function(s, t) {
-    let letters = {
-        a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0
-    }
+// var findTheDifference = function(s, t) {
+//     let letters = {
+//         a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0
+//     }
     
-    for (let i = 0; i < s.length; i++) {
-        letters[s[i]] -= 1
-        letters[t[i]] += 1
-    }
+//     for (let i = 0; i < s.length; i++) {
+//         letters[s[i]] -= 1
+//         letters[t[i]] += 1
+//     }
 
-    letters[t[t.length-1]] += 1
+//     letters[t[t.length-1]] += 1
 
-    let values = Object.values(letters)
-    let charCode = 97
-    for (let i of values) {
-        if (i === 1) break
-        charCode++
-    }
+//     let values = Object.values(letters)
+//     let charCode = 97
+//     for (let i of values) {
+//         if (i === 1) break
+//         charCode++
+//     }
 
-    return String.fromCharCode(charCode)
-};
+//     return String.fromCharCode(charCode)
+// };
 
 /*
 Runtime 60 ms
@@ -66,14 +66,32 @@ Memory 42.9 MB
 Beats 89.1%
 */
 
+// ATTEMPT 2: REPLACE CHAR CODE METHOD WITH OBJECT.ENTRIES
 
+var findTheDifference = function(s, t) {
+    // Set object with letters
+    const letters = {
+        a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0
+    }
+    // Subtract 1 if in s, add 1 if in t
+    for (let i = 0; i < s.length; i++) {
+        letters[s[i]] -= 1
+        letters[t[i]] += 1
+    }
+    // Add final letter of t
+    letters[t[t.length-1]] += 1
+    // Return key that has value of 1
+    for (const [key, value] of Object.entries(letters)) {
+        if (value === 1) return key
+    }
+};
 
-
-
-
-
-
-
+/*
+Runtime 50 ms
+Beats 95%
+Memory 43.7 MB
+Beats 74.8%
+*/
 
 console.log(findTheDifference(s, t))
 
