@@ -37,7 +37,7 @@ Constraints:
 // let matrix = [[1]], target = 1
 let matrix = [[1]], target = 2
 
-
+// ATTEMPT 1: FIND ROW, THEN CHECK VALUE WITHIN ROW
 var searchMatrix = function(matrix, target) {
     let matrixLen = matrix[0].length - 1
     for (let i = 0; i < matrix.length; i++) {
@@ -58,6 +58,32 @@ Memory 42.1 MB
 Beats 40.78%
 */
 
+// ATTEMPT 2: FIND ROW, THEN CHECK VALUE AND BEGINNING AND END SIMULTANEOUSLY WITHIN ROW
 
+var searchMatrix = function(matrix, target) {
+    // Check if target exceeds maximum in matrix
+    if (target > matrix[matrix.length - 1][matrix[0].length - 1]) return false
+    // Store matrix length of a row
+    let matrixLen = matrix[0].length
+    for (let i = 0; i < matrix.length; i++) {
+        // Check if target is less than last number in desired row
+        if (target <= matrix[i][matrixLen - 1]) {
+            // Check for match at beginning and end of row simultaneously
+            for (let j = 0; j < matrixLen / 2; j++) {       
+                if (target === matrix[i][j]) return true
+                if (target === matrix[i][matrixLen - j - 1]) return true
+            }
+            // Return false if no match
+            return false
+        }
+    }
+};
+
+/*
+Runtime 46 ms
+Beats 86.80%
+Memory 42 MB
+Beats 51.30%
+*/
 
 console.log(searchMatrix(matrix, target))
