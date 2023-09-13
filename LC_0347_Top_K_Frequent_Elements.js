@@ -32,25 +32,58 @@ let nums03 = [1,1,1,2,2,3,4,4,4,4], k03 = 2
 
 // ATTEMPT 1: Store all frequencies in an object, then sort the object by frequency count.  Return top k results.
 
+// var topKFrequent = function(nums, k) {
+//     let numTrack = {}
+
+//     for (let i = 0; i < nums.length; i++) {
+//         if (numTrack[nums[i]] === undefined) {
+//             numTrack[nums[i]] = 1
+//         } else {
+//             numTrack[nums[i]] += 1
+//         }
+//     }
+
+//     const numTrackArr = Object.entries(numTrack).sort((item01, item02) => item02[1] - item01[1])
+
+//     let result = []
+//     for (let i = 0; i < k; i++) {
+//         result.push(parseInt(numTrackArr[i][0]))
+//     }
+
+//     return result
+// };
+
+// ATTEMPT 2: Store all frequencies in an object, then sort the object by frequency count.  Return top k results.  ADDED CONDITIONAL FOR SORTING RESULTS WHICH RESULTED IN SIGNIFICANT TIME INCREASE.
+
 var topKFrequent = function(nums, k) {
+    // Store frequencies in numTrack object
     let numTrack = {}
-
     for (let i = 0; i < nums.length; i++) {
-        if (numTrack[nums[i]] === undefined) {
-            numTrack[nums[i]] = 1
-        } else {
-            numTrack[nums[i]] += 1
-        }
+        if (numTrack[nums[i]] === undefined) numTrack[nums[i]] = 1
+        else numTrack[nums[i]] += 1
     }
-    const numTrackArr = Object.entries(numTrack).sort((item01, item02) => item02[1] - item01[1])
+    // Extract key/value pairs into an array
+    const numTrackArr = Object.entries(numTrack)
+    // If array length is longer than k, sort the key/value pairs based on value
+    if (numTrackArr.length !== k) {
+        numTrackArr.sort((item01, item02) => item02[1] - item01[1])
+    }
 
+    // Take the first k keys and return as result
     let result = []
     for (let i = 0; i < k; i++) {
         result.push(parseInt(numTrackArr[i][0]))
     }
-
     return result
 };
+
+/*
+Runtime 57 ms
+Beats 93.43%
+Memory 45.6 MB
+Beats 47.85%
+*/
+
 
 // console.log(topKFrequent(nums01, k01))
 console.log(topKFrequent(nums02, k02))
