@@ -119,7 +119,6 @@ var fullJustify = function(words, maxWidth) {
                     tempSentence = tempSentence.slice(0, spaceIdx[j]) + spaces[j] + tempSentence.slice(spaceIdx[j])
                 }
             }
-            // console.log(tempSentence)
             result.push(tempSentence)
             tempSentence = words[i]
             ct += words[i].length
@@ -140,6 +139,73 @@ Runtime 49 ms
 Beats 71.44%
 Memory 41.8 MB
 Beats 57.48%
+*/
+
+// ATTEMPT 2: ADJUSTED WHEN VALUES ARE BEING PUSHED TO REMOVE CONDITIONAL STATEMENT WHEN FIRST WORD IS EXACT LENGTH OF MAXWIDTH
+
+var fullJustify = function(words, maxWidth) {
+    let ct = 0 // Sentence character count
+    let wdCt = 0 // Word Count
+    let result = [] // Result
+    let tempSentence = "" // Temporary sentence to be added to result
+    let space = ' ' // Used for repeat function 
+    let spaceIdx = [] // Track indexes for insertion of additional spaces
+
+    for (let i = 0; i < words.length; i++) {
+        if (words[i].length + tempSentence.length < maxWidth) {
+            tempSentence += ct === 0 ? "" : " " // Add space before new word if not the first word
+            if(ct !== 0) spaceIdx.push(tempSentence.length - 1) // Add index if not first word
+            tempSentence += words[i] // Add word
+            ct += words[i].length // Add word length count
+            wdCt++ // Increment word count
+        } else {
+            if (wdCt === 1) {
+                // Add sentence with spaces to fill out line and push result
+                tempSentence += space.repeat(maxWidth - tempSentence.length)
+                result.push(tempSentence)
+            }
+            if (wdCt > 1) {
+                let spaces = [] // Store array of spaces
+                let remainder = (maxWidth - tempSentence.length) % (wdCt - 1) // Determine spaces overflow
+                let spaceCt = Math.trunc((maxWidth - tempSentence.length) / (wdCt - 1)) // Determine amount of spaces needed as a base
+                for (let i = 0; i < wdCt - 1; i++) {
+                    // If there is a remainder, add an additional space to that index and reduce remainder by 1
+                    let additionalSpace = ""
+                    if (remainder > 0) {
+                        additionalSpace = ' '
+                        remainder--
+                    }
+                    // Push spaces into spaces array
+                    spaces.push(space.repeat(spaceCt) + additionalSpace)
+                }
+                // Add additional spaces into line by inserting from the last index to first utilixing the spaceIdx array
+                for (let j = spaceIdx.length - 1; j >= 0; j--) {
+                    tempSentence = tempSentence.slice(0, spaceIdx[j]) + spaces[j] + tempSentence.slice(spaceIdx[j])
+                }
+                // Push updated tempsentence
+                result.push(tempSentence)
+            }
+            // Reset values
+            tempSentence = words[i]
+            ct += words[i].length
+            wdCt = 1
+            spaceIdx = []
+        }    
+    }
+    // If there are leftover words, add to result with necessary spaces
+    if (tempSentence.length > 0) {
+        tempSentence += space.repeat(maxWidth - tempSentence.length)
+        result.push(tempSentence)
+    }
+    // Return result
+    return result
+};
+
+/*
+Runtime 42 ms
+Beats 94.83%
+Memory 41.9 MB
+Beats 47.57%
 */
 
 // console.log(fullJustify(words01, maxWidth01))
