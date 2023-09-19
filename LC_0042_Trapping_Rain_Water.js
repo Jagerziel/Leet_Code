@@ -38,15 +38,92 @@ let height11 = [2,6,3,8,2,7,2,5,0] // 11
 let height12 = [2,8,5,5,6,1,7,4,5] // 12
 let height13 = [3,9,8,1,1,4,1,5,1,4,1,1,2] // 18
 
-var trap = function(height) {
-    let leftWall = 0
-    let tempHold = 0
-    let tempMax = 0
-    let capturedWater = 0
-    let currIdx = 0
-    let maxIdx = 0
-    let distance = 0
+// ATTEMPT 1: Loop from front to determine buckets filled, then go from back to get any buckets less than the max height of the wall
 
+// var trap = function(height) {
+//     let leftWall = 0
+//     let tempHold = 0
+//     let tempMax = 0
+//     let capturedWater = 0
+//     let currIdx = 0
+//     let maxIdx = 0
+//     let distance = 0
+
+//     while (currIdx < height.length) {
+//         if (height[currIdx] > leftWall) {
+//             leftWall = height[currIdx]
+//             currIdx++
+//         } else if (height[currIdx] === leftWall) {
+//             currIdx++
+//         } else {
+//             currIdx--
+//             break
+//         }
+//     }
+
+//     for (let i = currIdx + 1; i < height.length; i++) {
+//         if (height[i] < leftWall) {
+//             tempHold += height[i]
+//             distance++
+//             if (height[i] >= tempMax) {
+//                 tempMax = height[i]
+//                 maxIdx = i
+//             }
+//         } else {
+//             capturedWater += distance * leftWall - tempHold
+//             tempHold = 0
+//             distance = 0
+//             leftWall = height[i]
+//             currIdx = i
+//         }
+//     }
+//     let addToBucket = 0
+//     let finalBucket = capturedWater
+//     if (distance > 0) {
+//         maxIdx= height.length - 1
+//         let tempMax = height[maxIdx]
+//         for (let i = maxIdx - 1; i > currIdx; i--) {
+//             if (height[i] >= tempMax) {
+//                 maxIdx = i
+//                 tempMax = height[i]
+//                 tempHold -= height[i + 1]
+//             } else {
+//                 break
+//             }
+//         }
+//         let newTempMax = tempMax
+//         for (let i = maxIdx - 1; i > currIdx; i--) {
+//             let ct = 0
+//             if (height[i] > newTempMax) {
+//                 newTempMax = height[i + ct]
+//             } 
+//             addToBucket += newTempMax - height[i]
+//         }
+//     }
+
+//     return finalBucket + addToBucket
+// };
+
+/*
+Runtime 59 ms
+Beats 64.14%
+Memory 43.4 MB
+Beats 47.86%
+*/
+
+
+// ATTEMPT 2: Cleaning code and removing variables
+
+var trap = function(height) {
+    let leftWall = 0 // track left wall
+    let tempHold = 0 // temporarily hold height until a higher amount is found
+    let tempMax = 0 // temporarily store max height
+    let capturedWater = 0 // track result
+    let currIdx = 0 // track starting index
+    let maxIdx = 0 // track ending index
+    let distance = 0 // track distance for iniital buckets
+
+    // Determine starting point
     while (currIdx < height.length) {
         if (height[currIdx] > leftWall) {
             leftWall = height[currIdx]
@@ -58,7 +135,8 @@ var trap = function(height) {
             break
         }
     }
-
+    
+    // Determine water while height is increasing from starting index
     for (let i = currIdx + 1; i < height.length; i++) {
         if (height[i] < leftWall) {
             tempHold += height[i]
@@ -75,13 +153,13 @@ var trap = function(height) {
             currIdx = i
         }
     }
-    let addToBucket = 0
-    let finalBucket = capturedWater
+
+    // Determine water content working from end of array.  
     if (distance > 0) {
-        maxIdx= height.length - 1
-        let tempMax = height[maxIdx]
+        maxIdx= height.length - 1 // Starting index
+        let tempMax = height[maxIdx] // Starting height
         for (let i = maxIdx - 1; i > currIdx; i--) {
-            if (height[i] >= tempMax) {
+            if (height[i] >= tempMax) { // set tempMax if new height is higher
                 maxIdx = i
                 tempMax = height[i]
                 tempHold -= height[i + 1]
@@ -89,26 +167,25 @@ var trap = function(height) {
                 break
             }
         }
-        let newTempMax = tempMax
+        let newTempMax = tempMax // store temporary max to overwrite max
         for (let i = maxIdx - 1; i > currIdx; i--) {
-            let ct = 0
-            if (height[i] > newTempMax) {
+            let ct = 0 // track skipped items
+            if (height[i] > newTempMax) { // Skip like items of tempMax
                 newTempMax = height[i + ct]
             } 
-            addToBucket += newTempMax - height[i]
+            capturedWater += newTempMax - height[i] // Update captured water value
         }
     }
-
-    return finalBucket + addToBucket
+    // Return result
+    return capturedWater
 };
 
 /*
-Runtime 59 ms
-Beats 64.14%
+Runtime 51 ms
+Beats 91.35%
 Memory 43.4 MB
-Beats 47.86%
+Beats 45.66%
 */
-
 
 console.log(trap(height01) === 6 ? true : trap(height01))
 console.log(trap(height02) === 9 ? true : trap(height02))
