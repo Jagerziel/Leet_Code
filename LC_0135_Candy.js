@@ -202,20 +202,184 @@ Beats 9.33%
 
 // Attempt 2: Clean up length value calculations
 
+// var candy = function(ratings) {
+//     const len = ratings.length
+//     if (len === 2) {
+//         if (ratings[0] === ratings[1]) return 2
+//         return 3
+//     }
+//     let minMax = []
+//     let candies = 0
+//     if (ratings[0] > ratings[1]) {
+//         minMax.push("max")
+//     } else {
+//         minMax.push("min")
+//     }
+//     let ct = 1
+//     for (let i = 1; i < len ; i++) {
+//         if (minMax[i - 1] === "min") {
+//             if (ratings[i] > ratings[i + 1]) {
+//                 ct = 1
+//                 minMax.push("max")
+//             } else if (ratings[i] === ratings[i + 1]){
+//                 if (ratings[i] > ratings[i - 1]) {
+//                     ct = 1
+//                     minMax.push('max')
+//                 } else {
+//                     ct = 1
+
+//                     minMax.push('min')
+//                 }
+//             } else {
+//                 if (ratings[i] === ratings[i - 1]) {
+//                     ct = 1
+
+//                     minMax.push('min')
+//                 } else {
+//                     ct++
+//                     minMax.push(ct)
+//                 }
+//             }
+//         } else if (minMax[i - 1] === "max") {
+//             if (ratings[i] < ratings[i + 1]) {
+//                 ct = 1
+//                 minMax.push("min")
+//             } else if (ratings[i] === ratings[i + 1]){
+//                 ct = 1
+//                 minMax.push('min')
+//             } else {
+//                 if (ratings[i] === ratings[i - 1]) {
+//                     ct = 1
+//                     minMax.push('max')
+//                 } else {
+//                     ct++
+//                     minMax.push(ct)
+//                 }
+//             }
+//         } else {
+//             if (ratings[i] > ratings[i - 1]) {
+//                 if (ratings[i] < ratings[i + 1]) {
+//                     ct++
+//                     minMax.push(ct)
+//                 } else if (ratings[i] > ratings[i + 1]) {
+//                     ct = 1
+//                     minMax.push('max')
+//                 } else {
+//                     ct = 1
+//                     minMax.push('max')
+//                 }
+//             } else if (ratings[i] < ratings[i - 1]) {
+//                 if (ratings[i] > ratings[i + 1]) {
+//                     ct++
+//                     minMax.push(ct)
+//                 } else if (ratings[i] < ratings[i + 1]) {
+//                     ct = 1
+//                     minMax.push('min')
+//                 } else {
+//                     ct = 1
+//                     minMax.push('min')
+//                 }
+//             } else if (ratings[i] === ratings[i - 1]) {
+//                 if (ratings[i] > ratings[i + 1]) {
+//                     ct = 1
+//                     minMax.push('max')
+//                 } else if (ratings[i] < ratings[i + 1]) {
+//                     ct = 1
+//                     minMax.push('min')
+//                 } else {
+//                     ct = 1
+//                     minMax.push('min')
+//                 }
+//             }
+//         }
+//     }
+//     if (ratings[len - 1] === len - 2) {
+//         minMax[len - 1] = "min"
+//     } else if (minMax[len - 2] === "max") {
+//         minMax[len - 1] = 'min'
+//     } 
+//     for (let i = 0; i < len; i++) {
+//         if (minMax[i] === 'max') {
+//             if (minMax[i - 1] === 'min' && minMax[i + 1] === 'min') {
+//                 candies += 2
+//             } else if (minMax[i - 1] === 'max') {
+//                 if (minMax[i + 1] === 'min') {
+//                     candies += 2
+//                 } else {
+//                     for (let j = i + 1; j < len; j++) {
+//                         if (isNaN(minMax[j])) {
+//                             candies += minMax[j - 1] + 1
+//                             break
+//                         }
+//                     }
+//                 } 
+//             } else if (minMax[i + 1] === 'min') {
+//                 if (i === 0) candies += 2
+//                 else {
+//                     candies += minMax[i - 1] + 1
+//                 }
+//             } else if (minMax[i - 1] === 'min') {
+//                 if (minMax[i + 1] === 'max') {
+//                     candies += 2
+//                 } else {
+//                     for (let j = i + 1; j < len; j++) {
+//                         if (isNaN(minMax[j])) {
+//                             candies += minMax[j - 1] + 1
+//                             break
+//                         }
+//                     }
+//                 }
+//             } else {
+//                 let currMax = isNaN(minMax[i - 1]) ? 0 : minMax[i - 1]
+//                 for (let j = i + 1; j < len; j++) {
+//                     if (isNaN(minMax[j])) {
+//                         if (minMax[j - 1] > currMax) {
+//                             currMax = minMax[j - 1]
+//                         }
+//                         candies += currMax + 1
+//                         break
+//                     }
+//                 }
+//             }
+//         } else if (minMax[i] === 'min') {
+//             candies += 1
+//         } else {
+//             candies += minMax[i]
+//         }
+//     }
+//     if (minMax[len - 1] === 'max') candies += minMax[len - 2] + 1
+//     return candies
+// };
+
+/*
+Runtime 63 ms
+Beats 61.23%
+Memory 47.6 MB
+Beats 10.48%
+*/
+
+// Attempt 3: Clean up redundent loop calling of current values.  NOT OPTIMAL - WOULD NEED TO REWRITE FULLY FOR OPTIMAL CODE
+
 var candy = function(ratings) {
-    const len = ratings.length
+    const len = ratings.length // Store Length
+    // Account for array length of 2
     if (len === 2) {
         if (ratings[0] === ratings[1]) return 2
         return 3
     }
-    let minMax = []
-    let candies = 0
+
+    let minMax = [] // Stpre minMax array
+    let candies = 0 // Track result
+
+    // Set first value
     if (ratings[0] > ratings[1]) {
         minMax.push("max")
     } else {
         minMax.push("min")
     }
-    let ct = 1
+    let ct = 1 // Track count of values over minimum
+
+    // Create minMax Array with an outline of values denoting the peak and dips.  For example: ['min',2,3,4,'max',2,3,'min','max','min']
     for (let i = 1; i < len ; i++) {
         if (minMax[i - 1] === "min") {
             if (ratings[i] > ratings[i + 1]) {
@@ -227,13 +391,11 @@ var candy = function(ratings) {
                     minMax.push('max')
                 } else {
                     ct = 1
-
                     minMax.push('min')
                 }
             } else {
                 if (ratings[i] === ratings[i - 1]) {
                     ct = 1
-
                     minMax.push('min')
                 } else {
                     ct++
@@ -293,11 +455,15 @@ var candy = function(ratings) {
             }
         }
     }
-    if (ratings[len - 1] === len - 2) {
-        minMax[len - 1] = "min"
-    } else if (minMax[len - 2] === "max") {
-        minMax[len - 1] = 'min'
-    } 
+    // Change last value of minMax array if the value is a min
+    if (ratings[len - 1] === len - 2) minMax[len - 1] = "min"
+    else if (minMax[len - 2] === "max") minMax[len - 1] = 'min'
+
+    /* Loop through minMax array and assign values based on minMax position.  
+            Min = 1, 
+            value = value amt, 
+            max = max value in either direction + 1
+    */
     for (let i = 0; i < len; i++) {
         if (minMax[i] === 'max') {
             if (minMax[i - 1] === 'min' && minMax[i + 1] === 'min') {
@@ -341,21 +507,23 @@ var candy = function(ratings) {
                     }
                 }
             }
-        } else if (minMax[i] === 'min') {
-            candies += 1
-        } else {
+        } else if (minMax[i] !== 'min') {
             candies += minMax[i]
+        } else {
+            candies += 1
         }
     }
+    // Add last value if required
     if (minMax[len - 1] === 'max') candies += minMax[len - 2] + 1
+    // Return result
     return candies
 };
 
 /*
-Runtime 63 ms
-Beats 61.23%
-Memory 47.6 MB
-Beats 10.48%
+Runtime 77 ms
+Beats 21.18%
+Memory 46.9 MB
+Beats 13.79%
 */
 
 
