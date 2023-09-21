@@ -138,44 +138,44 @@ Beats 24.60%
 
 // Attempt 4: Sort and return n - length of array
 
-var findKthLargest = function(nums, k) {
-    if (k === 1) return Math.max(...nums)
-    if (k === nums.length) return Math.min(...nums)
-    let result = [nums[0]]
+// var findKthLargest = function(nums, k) {
+//     if (k === 1) return Math.max(...nums)
+//     if (k === nums.length) return Math.min(...nums)
+//     let result = [nums[0]]
 
-    for (let i = 1; i < k; i++) {
-        if (nums[i] >= result[result.length - 1]) {
-            result.push(nums[i])
-        } else {
-            for (let j = 0; j < result.length; j++) {
-                if (nums[i] < result[j]) {
-                    result.splice(j,0,nums[i])
-                    break
-                }
-            }
-        }
-    }
+//     for (let i = 1; i < k; i++) {
+//         if (nums[i] >= result[result.length - 1]) {
+//             result.push(nums[i])
+//         } else {
+//             for (let j = 0; j < result.length; j++) {
+//                 if (nums[i] < result[j]) {
+//                     result.splice(j,0,nums[i])
+//                     break
+//                 }
+//             }
+//         }
+//     }
 
-    for (let i = k; i < nums.length; i++) {
-        if (nums[i] > result[0]) {
-            result.shift()
-            if (nums[i] >= result[result.length - 1]) {
-                result.push(nums[i])
-            } else if (nums[i] <= result[0]) {
-                result.unshift(nums[i])
-            } else {
-                for (let j = 0; j < result.length; j++) {
-                    if (nums[i] < result[j]) {
-                        result.splice(j,0,nums[i])
-                        break
-                    }
-                }
-            }
-        }
-    }
+//     for (let i = k; i < nums.length; i++) {
+//         if (nums[i] > result[0]) {
+//             result.shift()
+//             if (nums[i] >= result[result.length - 1]) {
+//                 result.push(nums[i])
+//             } else if (nums[i] <= result[0]) {
+//                 result.unshift(nums[i])
+//             } else {
+//                 for (let j = 0; j < result.length; j++) {
+//                     if (nums[i] < result[j]) {
+//                         result.splice(j,0,nums[i])
+//                         break
+//                     }
+//                 }
+//             }
+//         }
+//     }
 
-    return result[0]
-};
+//     return result[0]
+// };
 
 /*
 Runtime 3317 ms
@@ -184,8 +184,44 @@ Memory 50.4 MB
 Beats 86.88%
 */
 
+// Attempt 5: Most successful try with a few minor changes
 
+var findKthLargest = function(nums, k) {
+    const result = {
+        firstNElem: nums.slice(0,k),
+        min: nums[0]
+    }
 
+    for (let i = 1; i < k; i++) {
+        if (result.min > nums[i]) result.min = nums[i]
+    }
+
+    for (let i = k; i < nums.length; i++) {
+        if (nums[i] > result.min) {
+            let replaceMin = true
+            const prevMin = result.min
+            result.min = nums[i]
+            for (let j = 0; j < k; j++) {
+                if (result.firstNElem[j] === prevMin && replaceMin === true) {
+                    result.firstNElem[j] = nums[i]
+                    replaceMin = false
+                }
+                if (result.firstNElem[j] < result.min) {
+                    result.min = result.firstNElem[j]
+                }
+            }
+        }
+    }
+
+    return result.min
+};
+
+/*
+Runtime 3074 ms
+Beats 12.63%
+Memory 49.8 MB
+Beats 89.21%
+*/
 
 
 console.log(findKthLargest(nums, k))
