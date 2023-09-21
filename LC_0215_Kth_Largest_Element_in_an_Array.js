@@ -186,35 +186,35 @@ Beats 86.88%
 
 // Attempt 5: Most successful try with a few minor changes
 
-var findKthLargest = function(nums, k) {
-    const result = {
-        firstNElem: nums.slice(0,k),
-        min: nums[0]
-    }
+// var findKthLargest = function(nums, k) {
+//     const result = {
+//         firstNElem: nums.slice(0,k),
+//         min: nums[0]
+//     }
 
-    for (let i = 1; i < k; i++) {
-        if (result.min > nums[i]) result.min = nums[i]
-    }
+//     for (let i = 1; i < k; i++) {
+//         if (result.min > nums[i]) result.min = nums[i]
+//     }
 
-    for (let i = k; i < nums.length; i++) {
-        if (nums[i] > result.min) {
-            let replaceMin = true
-            const prevMin = result.min
-            result.min = nums[i]
-            for (let j = 0; j < k; j++) {
-                if (result.firstNElem[j] === prevMin && replaceMin === true) {
-                    result.firstNElem[j] = nums[i]
-                    replaceMin = false
-                }
-                if (result.firstNElem[j] < result.min) {
-                    result.min = result.firstNElem[j]
-                }
-            }
-        }
-    }
+//     for (let i = k; i < nums.length; i++) {
+//         if (nums[i] > result.min) {
+//             let replaceMin = true
+//             const prevMin = result.min
+//             result.min = nums[i]
+//             for (let j = 0; j < k; j++) {
+//                 if (result.firstNElem[j] === prevMin && replaceMin === true) {
+//                     result.firstNElem[j] = nums[i]
+//                     replaceMin = false
+//                 }
+//                 if (result.firstNElem[j] < result.min) {
+//                     result.min = result.firstNElem[j]
+//                 }
+//             }
+//         }
+//     }
 
-    return result.min
-};
+//     return result.min
+// };
 
 /*
 Runtime 3074 ms
@@ -223,5 +223,18 @@ Memory 49.8 MB
 Beats 89.21%
 */
 
+// Attempt 6: With sorting (most common Leetcode solution despite not being allowed in the description)
+
+var findKthLargest = function(nums, k) {
+    nums.sort((a, b) => b - a)
+    return nums[k - 1]
+};
+
+/*
+Runtime 142 ms
+Beats 61.21%
+Memory 52.3 MB
+Beats 46.85%
+*/
 
 console.log(findKthLargest(nums, k))
