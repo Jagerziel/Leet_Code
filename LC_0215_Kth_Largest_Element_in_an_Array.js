@@ -26,42 +26,45 @@ Constraints:
  */
 
 // let nums = [3,2,1,5,6,4], k = 2
-let nums = [3,2,3,1,2,4,5,5,6], k = 4
+// let nums = [3,2,3,1,2,4,5,5,6], k = 4
+let nums = [-1,2,0], k = 2
 
-var findKthLargest = function(nums, k) {
-    let result = {
-        firstNElem: nums.slice(0,k),
-        min: nums[0],
-        max: nums[0]
-    }
+// Attempt 1: Track min and max results within the an array (of k length) and replace the mins and max as a higher value beats the min value.  Ultimately, the min value will be the nth value and the max will be the max value of the array.
 
-    for (let i = 1; i < k; i++) {
-        if (result.min > nums[i]) result.min = nums[i]
-        if (result.max < nums[i]) result.max = nums[i]
-    }
+// var findKthLargest = function(nums, k) {
+//     let result = {
+//         firstNElem: nums.slice(0,k),
+//         min: nums[0],
+//         max: nums[0]
+//     }
 
-    for (let i = k; i < nums.length; i++) {
-        if (nums[i] > result.min) {
-            for (let j = 0; j < k; j++) {
-                if (result.firstNElem[j] === result.min) {
-                    result.firstNElem[j] = nums[i]
-                    break
-                }
-            }
-            result.min = result.firstNElem[0]
-            for (let j = 1; j < k; j++) {
-                if (result.firstNElem[j] < result.min) {
-                    result.min = result.firstNElem[j]
-                }
-            }
-        }
-        if (nums[i] > result.max) {
-            result.max = nums[i]
-        }
-    }
+//     for (let i = 1; i < k; i++) {
+//         if (result.min > nums[i]) result.min = nums[i]
+//         if (result.max < nums[i]) result.max = nums[i]
+//     }
 
-    return result.min
-};
+//     for (let i = k; i < nums.length; i++) {
+//         if (nums[i] > result.min) {
+//             for (let j = 0; j < k; j++) {
+//                 if (result.firstNElem[j] === result.min) {
+//                     result.firstNElem[j] = nums[i]
+//                     break
+//                 }
+//             }
+//             result.min = result.firstNElem[0]
+//             for (let j = 1; j < k; j++) {
+//                 if (result.firstNElem[j] < result.min) {
+//                     result.min = result.firstNElem[j]
+//                 }
+//             }
+//         }
+//         if (nums[i] > result.max) {
+//             result.max = nums[i]
+//         }
+//     }
+
+//     return result.min
+// };
 
 /*
 Runtime 3973 ms
@@ -69,5 +72,44 @@ Beats 10.46%
 Memory 50.7 MB
 Beats 83.76%
 */
+
+// Attempt 2: Place and sort during iteration to find min number easier and allow for early breakout of internal loops
+
+var findKthLargest = function(nums, k) {
+    let result = [nums[0]]
+
+    for (let i = 1; i < k; i++) {
+        for (let j = 0; j < result.length; j++) {
+            if (nums[i] < result[j]) {
+                result.splice(j,0,nums[i])
+                break
+            }
+        }
+        if (result.length !== i + 1) result.push(nums[i])
+    }
+
+    for (let i = k; i < nums.length; i++) {
+        if (nums[i] > result[0]) {
+            result.shift()
+            for (let j = 0; j < result.length; j++) {
+                if (nums[i] < result[j]) {
+                    result.splice(j,0,nums[i])
+                    break
+                }
+            }
+            if (result.length !== k) result.push(nums[i])
+        }
+    }
+
+    return result[0]
+};
+
+/*
+Runtime 3385 ms
+Beats 11.25%
+Memory 55.6 MB
+Beats 27.52%
+*/
+
 
 console.log(findKthLargest(nums, k))
