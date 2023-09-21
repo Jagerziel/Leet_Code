@@ -37,6 +37,7 @@ Constraints:
 let test01 = [4,2,1,3]
 let test02 = [1,3,6,10,15]
 let test03 = [3,8,-10,23,19,-4,-14,27]
+let test04 = [40,11,26,27,-20]
 
 // ATTEMPT 1: Sort array, then create object with keys being the values.  Pull the lowest object key value and return the result.
 
@@ -61,6 +62,36 @@ Memory 72.2 MB
 Beats 5.87%
 */
 
+// ATTEMPT 2: Use Array replacement instead of object
+
+var minimumAbsDifference = function(arr) {
+    arr.sort((a, b) => a - b) // Sort Array
+    let result = [[arr[0], arr[1]]] // Set Result as first two items
+    if (arr.length === 2) return result // Return result if length of arr is 2
+    
+    let minVal = arr[1] - arr[0] // Track minimum value
+
+    for (let i = 2; i < arr.length; i++) {
+        let setVal = arr[i] - arr[i - 1] 
+        if (setVal === minVal) { 
+            result.push([arr[i - 1], arr[i]]) // Add to result array if calculation meets min val
+        } else if (setVal < minVal) {
+            result = [[arr[i - 1], arr[i]]] // Set new array if new min val is found
+            minVal = setVal // Set new min val
+        }
+    }
+    return result
+};
+
+/*
+Runtime 124 ms
+Beats 89.9%
+Memory 54.2 MB
+Beats 71.82%
+*/
+
+
 console.log(minimumAbsDifference(test01))
 console.log(minimumAbsDifference(test02))
 console.log(minimumAbsDifference(test03))
+console.log(minimumAbsDifference(test04))
