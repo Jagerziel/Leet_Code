@@ -26,8 +26,8 @@ Constraints:
  */
 
 // let nums = [3,2,1,5,6,4], k = 2
-let nums = [3,2,3,1,2,4,5,5,6], k = 4
-// let nums = [-1,2,0], k = 2
+// let nums = [3,2,3,1,2,4,5,5,6], k = 4
+let nums = [-1,2,0], k = 1
 
 // Attempt 1: Track min and max results within the an array (of k length) and replace the mins and max as a higher value beats the min value.  Ultimately, the min value will be the nth value and the max will be the max value of the array.
 
@@ -113,21 +113,21 @@ Beats 27.52%
 
 // Attempt 3: Sort and return n - length of array
 
-var findKthLargest = function(nums, k) {
-    let result = [nums[0]]
+// var findKthLargest = function(nums, k) {
+//     let result = [nums[0]]
 
-    for (let i = 1; i < nums.length; i++) {
-        for (let j = 0; j < result.length; j++) {
-            if (nums[i] < result[j]) {
-                result.splice(j,0,nums[i])
-                break
-            }
-        }
-        if (result.length !== i + 1) result.push(nums[i])
-    }
+//     for (let i = 1; i < nums.length; i++) {
+//         for (let j = 0; j < result.length; j++) {
+//             if (nums[i] < result[j]) {
+//                 result.splice(j,0,nums[i])
+//                 break
+//             }
+//         }
+//         if (result.length !== i + 1) result.push(nums[i])
+//     }
 
-    return result[nums.length - k]
-};
+//     return result[nums.length - k]
+// };
 
 /*
 Runtime 6476 ms
@@ -135,5 +135,57 @@ Beats 5.19%
 Memory 56.9 MB
 Beats 24.60%
 */
+
+// Attempt 4: Sort and return n - length of array
+
+var findKthLargest = function(nums, k) {
+    if (k === 1) return Math.max(...nums)
+    if (k === nums.length) return Math.min(...nums)
+    let result = [nums[0]]
+
+    for (let i = 1; i < k; i++) {
+        if (nums[i] >= result[result.length - 1]) {
+            result.push(nums[i])
+        } else {
+            for (let j = 0; j < result.length; j++) {
+                if (nums[i] < result[j]) {
+                    result.splice(j,0,nums[i])
+                    break
+                }
+            }
+        }
+    }
+
+    for (let i = k; i < nums.length; i++) {
+        if (nums[i] > result[0]) {
+            result.shift()
+            if (nums[i] >= result[result.length - 1]) {
+                result.push(nums[i])
+            } else if (nums[i] <= result[0]) {
+                result.unshift(nums[i])
+            } else {
+                for (let j = 0; j < result.length; j++) {
+                    if (nums[i] < result[j]) {
+                        result.splice(j,0,nums[i])
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+    return result[0]
+};
+
+/*
+Runtime 3317 ms
+Beats 12.39%
+Memory 50.4 MB
+Beats 86.88%
+*/
+
+
+
+
 
 console.log(findKthLargest(nums, k))
